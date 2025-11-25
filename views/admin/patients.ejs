@@ -14,8 +14,8 @@
             <div class="user-profile">
                 <img src="/image/profile-img.png" alt="profile-img">
                 <div class="user-detail">
-                    <h3>Sheina Labadan</h3>
-                    <span>Admin</span>
+                    <h3>Admin</h3>
+                    <!-- <span>Admin</span> -->
                 </div>
             </div>
         </div>
@@ -23,16 +23,14 @@
     <aside class="sidebar">
         <div class="sidebar-header">
             <img src="/image/brgy-logo.png" alt="logo">
-            <h3>Brgy. Clinic Appointment</h3>
+           <h3>Title sa inyong System</h3>
         </div>
         <ul class="sidebar-links">
             <!-- <h4>Main Menu</h4> -->
             <div class="menu-separator"></div>
             <li><a href="Admindashboard"><span class="material-symbols-outlined">Dashboard</span>Dashboard</a></li>
             <li><a href="usermanagement"><span class="material-symbols-outlined">Manage_Accounts</span>User Management</a></li>
-            <li><a href="patients"><span class="material-symbols-outlined"> supervisor_account  </span>Patients Record</a></li>
-            <li><a href="logs"><span class="material-symbols-outlined">  pending_actions </span>Logs</a></li>
-            <li><a href="reports"><span class="material-symbols-outlined">insert_chart</span>Reports</a></li>
+            <li><a href="patients"><span class="material-symbols-outlined"> supervisor_account  </span>Messages</a></li>
             <li><a href="/login"><span class="material-symbols-outlined">Logout</span>Logout</a></li>
         </ul>
         
@@ -40,113 +38,10 @@
 
     <main class="main-content p-4 w-100">
         <div class="sticky-header">
-            <h4>Patients Record</h4>
+            <h4>Messages</h4>
         </div>
 
-        <!-- Search and Filter -->
-        <div class="filter-section">
+       <h4>butang lang here</h4>
 
-            <div class="filter-search">
-                <input type="text" id="searchInput" placeholder="Search by Lastname" onkeyup="filterTable()">
-            </div>
-            <div class="filter-search">
-                <select id="statusFilter" onchange="filterTable()">
-                    <option value="">Filter by Status: </option>
-                    <option value="Active">Active</option>
-                    <option value="Inactive">Inactive</option>
-                </select>
-            </div>
-            
-            
-            
-        </div>
-        
-        <!-- Patient Records Table -->
-        <div class="patient-table">
-            <div class="table-responsive">
-                <table class="reports-table">
-                    <thead>
-                        <tr>
-                            <th>Created At</th>
-                            <th>Updated At</th>
-                            <th>Patient ID</th>
-                            <th>Lastname</th>
-                            <th>Firstname</th>
-                            <th>Gender</th>
-                            <th>Date of Birth</th>
-                            <th>Contact Number</th>
-                            <th>Address</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody id="patientTableBody">
-                        <% patients.forEach(patient => { %>
-                            <tr>
-                                <td><%= new Date(patient.createdAt).toLocaleString("en-US", { 
-                                    month: "2-digit", 
-                                    day: "2-digit", 
-                                    year: "numeric", 
-                                    hour: "2-digit", 
-                                    minute: "2-digit" 
-                                }) %>
-                            </td>
-                            <td><%= new Date(patient.updatedAt).toLocaleString("en-US", { 
-                                    month: "2-digit", 
-                                    day: "2-digit", 
-                                    year: "numeric", 
-                                    hour: "2-digit", 
-                                    minute: "2-digit" 
-                                }) %>
-                            </td>
-                            
-                                <td><%= patient.Patient_ID %></td>
-                                <td><%= patient.Patient_LastName %></td>
-                                <td><%= patient.Patient_FirstName %></td>
-                                <td><%= patient.Patient_Gender %></td>
-                                <td><%= new Date(patient.DateofBirth).toLocaleDateString("en-US", { 
-                                        month: "2-digit", 
-                                        day: "2-digit", 
-                                        year: "numeric" 
-                                    }) %>
-                                </td>
-                                <td><%= patient.Patient_ContactNumber %></td>
-                                <td><%= patient.Patient_Address %></td>
-                                <td><%= patient.Patient_Status %></td>
-                               
-                            </tr>
-                        <% }) %>
-                    </tbody>
-                    
-                </table>
-            </div>
-        </div>
-        
-
-    </main>
-
-    <script>
-        function filterTable() {
-            const searchInput = document.getElementById('searchInput').value.toLowerCase();
-            const statusFilter = document.getElementById('statusFilter').value;
-            const tableBody = document.getElementById('patientTableBody');
-            const rows = tableBody.getElementsByTagName('tr');
-
-            for (let i = 0; i < rows.length; i++) {
-                const cells = rows[i].getElementsByTagName('td');
-                const lastName = cells[3]?.textContent.toLowerCase() || '';
-                const status = cells[9]?.textContent || '';
-
-                if (
-                    (lastName.includes(searchInput) || !searchInput) &&
-                    (status === statusFilter || !statusFilter)
-                ) {
-                    rows[i].style.display = '';
-                } else {
-                    rows[i].style.display = 'none';
-                }
-            }
-        }
-    </script>
-          
 </body>
 </html>

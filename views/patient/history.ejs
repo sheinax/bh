@@ -14,7 +14,7 @@
                 <img src="/image/profile-img.png" alt="profile-img">
                 <div class="user-detail">
                     <h3><%= firstName %> <%= lastName %></h3>
-                    <span>Patient</span>
+                    <span>Tenant</span>
                 </div>
             </div>
         </div>
@@ -23,13 +23,13 @@
     <aside class="sidebar">
         <div class="sidebar-header">
             <img src="/image/brgy-logo.png" alt="logo">
-            <h3>Brgy. Clinic Appointment</h3>
+              <h3>Title Sa Inyong System</h3>
         </div>
         <ul class="sidebar-links">
             <div class="menu-separator"></div>
             <li><a href="profile"><span class="material-symbols-outlined"> manage_accounts </span>Profile</a></li>
-            <li><a href="appointment"><span class="material-symbols-outlined"> edit_calendar </span>Appointment</a></li>
-            <li><a href="history"><span class="material-symbols-outlined"> save_clock </span>History</a></li>
+            <li><a href="appointment"><span class="material-symbols-outlined"> edit_calendar </span>Payment</a></li>
+            <li><a href="history"><span class="material-symbols-outlined"> save_clock </span>Messages</a></li>
             <li><a href="login"><span class="material-symbols-outlined">logout</span>Logout</a></li>
         </ul>
     </aside>
@@ -38,124 +38,11 @@
      <!-- Main Content -->
      <main class="main-content">
         <div class="sticky-header">
-            <h4>History</h4>
+            <h4>Messages</h4>
         </div>
 
-                <!-- Search Box -->
-                <div id="search-filter-container">
-                    <div id="search-box">
-                        <input type="text" id="searchInput" placeholder="Search" onkeyup="searchAppointments()">
-                    </div>
-                
-                    <!-- Filter Dropdown -->
-                    <div id="filter-container">
-                        <select id="statusFilter" class="filter-dropdown" onchange="filterAppointmentsByDropdown()">
-                            <option value="All">Filter by Status: </option>
-                            <option value="Completed">Completed</option>
-                            <option value="Cancelled">Cancelled</option>
-                        </select>
-                    </div>
-                </div>
-                
+        <h4> message ba kaha</h4>
 
-
-        <!-- Display the appointments history (Cancelled and Completed) -->
-    
-        <div class="table-responsive">
-        <table>
-            <thead>
-                <tr>
-                    <th>Created Date and Time</th>
-                    <th>Updated Date and Time</th>
-                    <th>Appointment Date</th>
-                    <th>Appointment Time</th>
-                    <th>Purpose</th>
-                    <th>Status</th>
-                 
-                </tr>
-            </thead>
-            <tbody id="appointmentTableBody">
-                <% appointments.forEach(appointment => { %>
-                    <tr>
-
-                        <td>
-                            <%= new Date(appointment.createdAt).toLocaleString() %>
-                        </td>
-                        <td>
-                            <%= new Date(appointment.updatedAt).toLocaleString() %>
-                        </td>
-                        
-                        <td>
-                            
-                            <%= new Date(appointment.Appointment_Date).toLocaleDateString("en-US", { 
-                                month: "2-digit", 
-                                day: "2-digit", 
-                                year: "numeric" 
-                            }) %>
-                        </td>
-                        <td>
-                            <%= new Intl.DateTimeFormat('en-US', { 
-                                hour: '2-digit', 
-                                minute: '2-digit', 
-                                hour12: true 
-                            }).format(new Date(`1970-01-01T${appointment.Appointment_Time}`)) %>
-                        </td>
-                        <td><%= appointment.Appointment_Purpose %></td>
-                        <td><%= appointment.Appointment_Status %></td>
-                      
-                    </tr>
-                <% }); %>
-            </tbody>
-        </table>
-
-        </div>
-        
-    </main>
-
-    <script>
-
-        // Function to search across all table columns
-function searchAppointments() {
-    const input = document.getElementById('searchInput');
-    const filter = input.value.toLowerCase();
-    const rows = document.querySelectorAll("#appointmentTableBody tr");
-
-    rows.forEach(row => {
-        let found = false;
-
-        // Loop through all cells in the row
-        row.querySelectorAll("td").forEach(cell => {
-            if (cell.textContent.toLowerCase().includes(filter)) {
-                found = true;
-            }
-        });
-
-        // Show or hide row based on the search match
-        if (found) {
-            row.style.display = "";
-        } else {
-            row.style.display = "none";
-        }
-    });
-}
-
-
-// Function to filter appointments using dropdown
-function filterAppointmentsByDropdown() {
-    const statusFilter = document.getElementById("statusFilter").value;
-    const rows = document.querySelectorAll("#appointmentTableBody tr");
-
-    rows.forEach(row => {
-        const status = row.querySelector("td:nth-child(6)").textContent.trim();
-        if (statusFilter === "All" || status === statusFilter) {
-            row.style.display = "";
-        } else {
-            row.style.display = "none";
-        }
-    });
-}
-
-    </script>
-    
+              
 </body>
 </html>

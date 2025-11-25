@@ -18,8 +18,8 @@
             <div class="user-profile">
                 <img src="/image/profile-img.png" alt="profile-img">
                 <div class="user-detail">
-                    <h3>Sheina Labadan</h3>
-                    <span>Admin</span>
+                    <h3>Admin</h3>
+                    <!-- <span>Admin</span> -->
                 </div>
             </div>
         </div>
@@ -27,16 +27,14 @@
     <aside class="sidebar">
         <div class="sidebar-header">
             <img src="/image/brgy-logo.png" alt="logo">
-            <h3>Brgy. Clinic Appointment</h3>
+           <h3>Title sa inyong System</h3>
         </div>
         <ul class="sidebar-links">
             <!-- <h4>Main Menu</h4> -->
             <div class="menu-separator"></div>
             <li><a href="Admindashboard"><span class="material-symbols-outlined">Dashboard</span>Dashboard</a></li>
             <li><a href="usermanagement"><span class="material-symbols-outlined">Manage_Accounts</span>User Management</a></li>
-            <li><a href="patients"><span class="material-symbols-outlined"> supervisor_account  </span>Patients Record</a></li>
-            <li><a href="logs"><span class="material-symbols-outlined">  pending_actions </span>Logs</a></li>
-            <li><a href="reports"><span class="material-symbols-outlined"> insert_chart  </span> Reports</a></li>
+            <li><a href="patients"><span class="material-symbols-outlined"> supervisor_account  </span>Messages</a></li>
             <li><a href="/login"><span class="material-symbols-outlined">Logout</span>Logout</a></li>
         </ul>
         
@@ -63,7 +61,7 @@
             <button id="addUserBtn" class="btn btn-add">
                 <span class="material-symbols-outlined">
                     person_add
-                </span> Add New User
+                </span> Add New Tenant
             </button>
               
             
@@ -83,7 +81,7 @@
         <div id="userModal" class="modal">
             <div class="modal-content">
                 <span id="closeModal" class="close">&times;</span>
-                <h3>Add New User</h3>
+                <h3>Add New Tenant</h3>
                 
 
                 <form id="addUserForm" action="/admin/addUser" method="post">
