@@ -217,17 +217,17 @@ body {
 
 
 .sticky-header h2 {
-    font-size: 1.50rem;
+    font-size: 1.20rem;
     color: #176B87;
     margin-bottom: 15px;
     margin-left: 35px;
 }
 
 .main-content {
-    width: 85%;
+    width: 100%;
     padding: 20px;
     border-radius: 15px;
-    margin-left: 11%;
+    margin-left: 5%;
     margin-top: 3%;
     transition: margin-left 0.4s ease;
     font-family: "Poppins", sans-serif;
@@ -263,12 +263,13 @@ body {
     gap: 20px;
 }
 
+
 .metric-box {
     background: #f1f8ff;
     border: 1px solid #176b87;
     padding: 35px  10px;
     width:17.7rem;
-    height: 10rem;
+    height: 12rem;
     text-align: center;
     border-radius: 15px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -276,7 +277,7 @@ body {
 }
 
 .metric-box h6 {
-    font-size: 0.7rem;
+     font-size: 1rem;
     color: #3a506b;
     /* margin-bottom: 10px; */
 }
@@ -286,6 +287,80 @@ body {
     font-weight: bold;
     color: #176b87;
 }
+
+.icon-large {
+    font-size: 40px; 
+    
+}
+
+.date-controller {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.month-display {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.current-month {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.current-year {
+    font-size: 14px;
+    background: #f4f4f4;
+    padding: 3px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.current-year:hover {
+    background: #e6e6e6;
+}
+
+.arrow {
+    font-size: 20px;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+
+.arrow:hover {
+    background-color: #eee;
+}
+
+/* YEAR POPUP */
+.year-popup {
+    position: absolute;
+    background: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    display: none;
+    max-height: 200px;
+    overflow-y: auto;
+    width: 120px;
+    z-index: 999;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.year-popup div {
+    padding: 6px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.year-popup div:hover {
+    background: #e8f0fe;
+}
+
 
 .reports-table {
     width: 85%;

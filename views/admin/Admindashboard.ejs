@@ -22,15 +22,15 @@
     </div>
     <aside class="sidebar">
         <div class="sidebar-header">
-            <img src="/image/brgy-logo.png" alt="logo">
+            <img src="/image/image.png" alt="logo">
             <h3>Title sa inyong System</h3>
         </div>
         <ul class="sidebar-links">
             <!-- <h4>Main Menu</h4> -->
             <div class="menu-separator"></div>
             <li><a href="Admindashboard"><span class="material-symbols-outlined">Dashboard</span>Dashboard</a></li>
-            <li><a href="usermanagement"><span class="material-symbols-outlined">Manage_Accounts</span>User Management</a></li>
-            <li><a href="patients"><span class="material-symbols-outlined"> supervisor_account  </span>Messages</a></li>
+            <li><a href="usermanagement"><span class="material-symbols-outlined">Manage_Accounts</span>Tenants</a></li>
+            <li><a href="patients"><span class="material-symbols-outlined">chat</span>Messages</a></li>
             <li><a href="/login"><span class="material-symbols-outlined">Logout</span>Logout</a></li>
         </ul>
         
@@ -40,52 +40,126 @@
      <!-- Main Content -->
      <main class="main-content">
         <div class="sticky-header">
-            <h2>Dashboard</h2>
+            <h2>Overview</h2>
         </div>
     
         <!-- Metrics Section -->
         <section class="reports-metrics">
-            <div class="metrics">
-                <div class="metrics-group">
+           <div class="metrics">
+            
+    <div class="metrics-group">
+        
+        <div class="metric-box">
+
+              <h6>Total Funds</h6>
+
+            <!-- Month + Year Selector -->
+            <div class="date-controller">
+                <span class="arrow prev-month">&lt;</span>
+
+                <div class="month-display">
+                    <span class="current-month">January</span>
+                    <span class="current-year trigger-year-popup">2025 ▾</span>
+                </div>
+
+                <span class="arrow next-month">&gt;</span>
+            </div>
+
+            <!-- Popup Year Selector -->
+            <div class="year-popup" id="yearPopup">
+                <!-- Years inserted by JS -->
+            </div>
+
+
+            <div class="stat-number" id="fundAmount">₱345,345</div>
+
+            <span class="material-symbols-outlined icon-large">payments</span>
+          
+
+        </div>
+    </div>
+</div>
+
                     <div class="metric-box">
-                        <h6>Total Clinic Staff</h6>
-                        <div class="stat-number" id="totalStaffUsers">
-                            <span>Loading...</span>
+                        <h6>Total Expenses</h6>
+                        <!-- <div class="stat-number" id="totalActiveStaff"> -->
+                            <div class="stat-number" >  ₱45,345
+                           
                         </div>
-                        <span class="material-symbols-outlined">group</span> 
-                    </div>
-                
-                    <div class="metric-box">
-                        <h6>Active Clinic Staff</h6>
-                        <div class="stat-number" id="totalActiveStaff">
-                            <span>Loading...</span>
-                        </div>
-                        <span class="material-symbols-outlined">people</span> 
+                        <span class="material-symbols-outlined icon-large"> request_quote</span>
                     </div>
 
                     <div class="metric-box">
-                        <h6>Registered Patients</h6>
-                        <div class="stat-number" id="totalPatients">
-                            <span>Loading...</span>
+                        <h6>Net Balance</h6>
+                        <!-- <div class="stat-number" id="totalPatients"> -->
+                           <div class="stat-number" >  ₱35,45 
                         </div>
-                        <span class="material-symbols-outlined">medical_services</span> 
+                        <span class="material-symbols-outlined icon-large"> account_balance_wallet</span>
                     </div>
                 
                     <div class="metric-box">
-                        <h6>Active Patients</h6>
-                        <div class="stat-number" id="totalActivePatients">
-                            <span>Loading...</span>
+                        <h6>Pending Payments</h6>
+                        <!-- <div class="stat-number" id="totalActivePatients"> -->
+                             <div class="stat-number" >  ₱123,123
+                          
                         </div>
-                        <span class="material-symbols-outlined">face</span>
+                    <span class="material-symbols-outlined icon-large"> request_quote</span>
                     </div>
                 </div>
         
+                </div>
                 
                 
             </div>
         </section>
 
+        <br>
+
+           <div class="sticky-header">
+            <h2>Rooms Overview</h2>
+        </div>
+
+
+        <section class="reports-metrics">
+            <div class="metrics">
+                <div class="metrics-group">
+                    <div class="metric-box">
+                        <h6>Total Rooms</h6>
+                        <!-- <div class="stat-number" id="totalStaffUsers"> -->
+                       <div class="stat-number" >100   
+                        </div>
+                        <span class="material-symbols-outlined icon-large"> meeting_room</span>
+                    </div>
+                
+                    <div class="metric-box">
+                        <h6>Occupied Rooms</h6>
+                        <!-- <div class="stat-number" id="totalActiveStaff"> -->
+                        <div class="stat-number" >  60  
+                        </div>
+                        <span class="material-symbols-outlined icon-large">people</span> 
+                    </div>
+
+                    <div class="metric-box">
+                        <h6>Vacant Rooms</h6>
+                        <!-- <div class="stat-number" id="totalPatients"> -->
+                         <div class="stat-number" > 40      
+                        </div>
+                       <span class="material-symbols-outlined icon-large"> night_shelter</span>
+                    </div>
+                
+                   
+                
+                
+            </div>
+        </section>
         
+
+<br>
+
+             <div class="sticky-header">
+            <h2>Tenants Details</h2>
+        </div>
+
 
          </div>
         
@@ -204,6 +278,82 @@
     </script>
 
 
+<script>
+const months = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+];
+
+let currentMonthIndex = new Date().getMonth();
+let currentYear = new Date().getFullYear();
+
+const monthEl = document.querySelector('.current-month');
+const yearEl = document.querySelector('.current-year');
+const fundAmount = document.getElementById('fundAmount');
+
+
+// YEAR POPUP
+const yearPopup = document.getElementById('yearPopup');
+
+for (let y = 2010; y <= 2035; y++) {
+    let div = document.createElement("div");
+    div.textContent = y;
+
+    div.addEventListener("click", () => {
+        currentYear = y;
+        yearEl.textContent = currentYear + " ▾";
+        yearPopup.style.display = "none";
+        updateDisplay();
+        loadFunds();
+    });
+
+    yearPopup.appendChild(div);
+}
+
+yearEl.addEventListener("click", () => {
+    yearPopup.style.display =
+        yearPopup.style.display === "block" ? "none" : "block";
+});
+
+function updateDisplay() {
+    monthEl.textContent = months[currentMonthIndex];
+    yearEl.textContent = currentYear + " ▾";
+}
+
+// Month navigation
+document.querySelector('.prev-month').addEventListener('click', () => {
+    if (currentMonthIndex === 0) {
+        currentMonthIndex = 11;
+        currentYear--;
+    } else {
+        currentMonthIndex--;
+    }
+    updateDisplay();
+    loadFunds();
+});
+
+document.querySelector('.next-month').addEventListener('click', () => {
+    if (currentMonthIndex === 11) {
+        currentMonthIndex = 0;
+        currentYear++;
+    } else {
+        currentMonthIndex++;
+    }
+    updateDisplay();
+    loadFunds();
+});
+
+// AUTO-LOAD FUNDS (Replace with API)
+function loadFunds() {
+    // Example only — you will connect to DB later
+    const randomAmount = Math.floor(Math.random() * 900000) + 10000;
+
+    fundAmount.textContent = "₱" + randomAmount.toLocaleString();
+}
+
+updateDisplay();
+loadFunds();
+</script>
 
 </body>
 </html>

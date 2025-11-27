@@ -162,8 +162,8 @@ body {
 
 .main-content {
     background-color: #ffffff;
-    width: 85%;
-    height: 80vh;
+    width: 87%;
+    height: 100%;
     border-radius: 15px;
     /* padding: auto 2rem; */
     margin-left: 85px; /* Space for sidebar */
@@ -182,7 +182,7 @@ body {
     font-size: 1.40rem;
     color: #176B87;
     margin-bottom: 15px;
-    margin-left: 20px;
+    margin-left: 5px;
 }
 
 
