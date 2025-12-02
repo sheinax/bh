@@ -1,5 +1,5 @@
 
-// admin.cotroller.js
+// admin.controller.js
 
 
 const { where } = require("sequelize");
@@ -26,6 +26,11 @@ const message_view= (req, res) => {
     res.render("admin/message");
 };
 
+
+
+const room_view= (req, res) => {
+    res.render("admin/room");
+};
 
 const usermanagement_view = async (req, res) => {
     try {
@@ -224,14 +229,52 @@ const updateUser = (req, res) => {
     });
 };
 
+// GET all rooms (fetch for frontend)
+const getRooms = async (req, res) => {
+    try {
+        const rooms = await models.Room.findAll({ order: [['id', 'ASC']] });
+        res.json(rooms); // send as JSON
+    } catch (error) {
+        console.error("Error fetching rooms:", error);
+        res.status(500).json({ error: "Unable to fetch rooms" });
+    }
+};
+
+// ADD a new room
+const addRoom = async (req, res) => {
+    const { Room_Number, Room_Type, Rent_Amount, Availability_Status } = req.body;
+
+    if (!Room_Number || !Room_Type || !Rent_Amount || !Availability_Status) {
+        return res.status(400).json({ error: "All fields are required" });
+    }
+
+    try {
+        const newRoom = await models.Room.create({
+            Room_Number,
+            Room_Type,
+            Rent_Amount,
+            Availability_Status
+        });
+
+        res.json({ message: "Room added successfully", room: newRoom });
+    } catch (error) {
+        console.error("Error adding room:", error);
+        res.status(500).json({ error: "Unable to add room" });
+    }
+};
+
 
 module.exports = {
+    addRoom,
+    getRooms,
     Admindashboard_view,
     usermanagement_view,
     payment_view,
     message_view,
+    room_view,
     login_view,
     register_view,
+    addUser_view,
     save_user,
     login_user,
     addUser,

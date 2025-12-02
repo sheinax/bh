@@ -1,0 +1,578 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+/* #7E60BF purple ni*/ 
+
+body {
+    max-height: 90vh;
+    background-color: #c0d6ff;
+    background: linear-gradient(to right, #e2e2e2, #60376b);
+}
+
+.header {
+    display: flex; 
+    background: #ffffff;
+    justify-content: flex-end; 
+    align-items: center;
+    width: 100%;
+    height: 3rem; 
+    padding: 0 1.5rem; 
+    position: fixed; 
+    top: 0;
+    /* z-index: 1000;  */
+}
+
+.user-account {
+    display: flex;
+    align-items: center;
+    color: #ffffff;
+}
+
+.user-account .user-profile {
+    display: flex;
+    align-items: center;
+    color: #176B87;
+}
+
+.user-account img{
+    width: 30px;
+    border-radius: 50%;
+}
+
+.user-account h3 {
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.user-detail {
+    margin-left: 10px;
+    white-space: nowrap;
+}
+
+.user-account span{
+    font-size: 0.6rem;
+    font-weight: 500;
+    display: block;
+    margin-top: 0;
+}
+
+.sidebar:hover .user-account{
+    background: #ffffff2d;
+    border-radius: 4px;
+}
+
+.sidebar-header img {
+    width: 42px;
+    border-radius: 50%;
+}
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 85px;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    background:#42224A;
+    padding: 25px 20px;
+    transition: all 0.4s ease;
+}
+
+.sidebar:hover{
+    width: 260px;
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+}
+
+.sidebar-header h3{
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #fff;
+    margin-left: 23px;
+}
+
+.sidebar-links {
+    list-style: none;
+    margin-top: 20px;
+    height: 70%;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.sidebar-links h4 span{
+    opacity: 0;
+}
+
+.sidebar:hover .sidebar-links h4 span{
+    opacity: 1;
+}
+
+.sidebar-links h4{
+    color: #fff;
+    font-weight: 500;
+    margin: 10px 0;
+    white-space: nowrap;
+    position: relative;
+}
+
+.sidebar-links .menu-separator {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+    transform: scaleX(1);
+    transform: translateY(-50%);
+    background: #12556b;
+    transform-origin: right;
+    transition-duration: 0.2s;
+}
+
+.sidebar:hover .sidebar-links .menu-separator{
+    transition-delay: 0s;
+    transform: scaleX(0);
+}
+
+.sidebar-links li a {
+    display: flex;
+    align-items: center;
+    gap: 0 20px;
+    color: #dbd4d4e3;
+    font-weight: 500;
+    padding: 15px 10px;
+    white-space: nowrap;
+    text-decoration: none;
+    font-size: 0.8em;
+}
+
+.sidebar-links li a:hover {
+    background: #ffffff2d;
+    color: #fff;
+    border-radius: 15px;
+}
+
+.sticky-header h4 {
+    font-size: 1.25rem;
+    color: black;
+    margin-bottom: 15px;
+}
+
+.main-content {
+    background-color: #ffffff;
+    max-height: 85vh;
+    width: 85%; 
+    overflow: hidden; 
+    border-radius: 15px;
+    margin-left: 10%; 
+    margin-top: 6%;
+    padding: 20px;
+    transition: margin-left 0.4s ease;
+}
+
+
+.sidebar:hover + .main-content {
+    margin-left: 280px; 
+}
+
+
+/* Button styling */
+.btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.btn-success {
+    margin-top: 20px; /* Adjust the value as needed */
+}
+
+.btn-add {
+    background-color: #42224A; 
+    color: white;
+    height: 40px;
+    font-size: 0.8em;
+    align-items: center;
+    display: flex;
+}
+
+.btn-add span{
+    margin-right: 10px;
+}
+
+.btn-edit {
+    color: rgb(21, 160, 214); 
+    font-size: x-small; 
+    background: none; 
+    border: none; 
+    cursor: pointer; 
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+  }
+  
+  .btn-edit:hover {
+    color: rgb(0, 123, 255); 
+    transform: scale(1.1); 
+  }
+  
+
+
+/* .btn-danger {
+    background-color: #dc3545; 
+    color: white;
+    font-size: x-small;
+    text-decoration: none;
+} */
+
+
+table{
+    font-size: small;
+    text-align: center;
+}
+
+
+/*horizontal scroll */
+.table-responsive {
+    overflow-x: auto; 
+    max-height: calc(85vh - 40px);
+    height: 50rem;
+    width: 100%;
+    padding-bottom: 10px;
+    margin-top: 10px;
+}
+
+.reports-table {
+    width: 100%;
+    min-width: 1100px; /* Adjust based on your needs */
+    background-color: #f8f9fa;
+    border-collapse: collapse;
+    text-align: center;
+    border-radius: 8px;
+}
+
+
+.reports-table th {
+    background-color: #42224A;
+    color: white;
+    padding: 10px;
+    /* font-weight: normal; */
+}
+.reports-table tbody td {
+    padding: 12px;
+    color: #333;
+    border-bottom: 1px solid #e9ecef;
+}
+
+/* .reports-table td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    white-space: nowrap; 
+} */
+.reports-table tbody {
+    max-height: 60vh; /* Limit table body height for scrolling */
+    overflow-y: auto;
+    display: block; /* Allow independent scrolling */
+}
+
+.reports-table thead, .reports-table tbody tr {
+    display: table;
+    width: 100%; /* Maintain alignment */
+    table-layout: fixed; /* Prevent content misalignment */
+}
+
+
+.reports-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.reports-table tbody tr:hover {
+    background-color: #46b2d643;
+}
+
+
+
+/* Responsive adjustments */
+@media (max-width: 430px) {
+    .main-content {
+        margin-left: 0;
+    }
+
+    .main-content h2, .main-content h4 {
+        font-size: 1.25rem;
+    }
+}
+
+
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 85px;
+        margin-top: 8%;
+    }
+
+    .sidebar {
+        width: 60px;
+    }
+
+    .sidebar:hover {
+        width: 200px;
+    }
+
+    .reports-table {
+        min-width: 800px;
+    }
+}
+
+/* Modal styling */
+/* Modal styling */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding-top: 60px; /* Adds space from the top */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 250px; /* Fixed width for consistent size */
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+.modal-content h2{
+    color: #42224A;
+    font-size: large;
+    margin-top: 8px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Style for the Save Changes button */
+.editsaveButton {
+    background-color: #42224A; 
+    color: white; 
+    border: none; 
+    border-radius: 5px; /* Rounded corners */
+    font-size: small; 
+    cursor: pointer;
+    width: 100%; /* Full width button */
+    margin-top: 10px; 
+    transition: background-color 0.3s ease; 
+}
+
+/* Hover effect */
+.editsaveButton:hover {
+    background-color: #42224A; 
+}
+
+
+
+/* Form Input Styling */
+form {
+    display: flex;
+    flex-direction: column;
+    color: #000;
+  
+   
+}
+
+form label {
+    font-size: small;
+    margin: 10px 0 5px;
+    color: rgb(91, 85, 85);
+}
+
+
+form input, form select {
+    padding: 5px;
+    font-size: small;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 5px;
+    width: 100%;
+ 
+}
+
+form button {
+    background-color: #42224A;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+form button:hover {
+    background-color: #42224A;
+}
+
+/* Button styling */
+.btn-success {
+    background-color: #42224A;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.btn-success:hover {
+    background-color: #42224A;
+}
+
+.editsaveButton {
+    background-color: #42224A;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+.editsaveButton:hover {
+    background-color: #55275e;
+}
+
+
+.form-text{
+    font-size: x-small;
+    color: darkgray;
+}
+
+
+
+.add-search {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.filter-section{
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Styles for Search Container */
+.search-container {
+    align-items: center;
+    margin-top: 10px;
+
+}
+
+.search-container label {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333;
+    margin-right: 10px;
+}
+
+#searchInput {
+    padding: 8px;
+    font-size: 0.9rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 250px;
+}
+
+
+/* Styles for Search Container with Icon */
+.search-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.search-container .search-icon {
+    position: absolute;
+    left: 10px;
+    color: #888;
+    font-size: 1.25rem;
+}
+
+#searchInput {
+    padding: 8px 8px 8px 35px; /* Padding adjusted for icon */
+    font-size: 0.9rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 500px;
+}
+
+
+
+
+/* Filter Container */
+.filter-container {
+    justify-content: flex-end; 
+    align-items: center;
+    margin: 10px 0;
+}
+
+/* Label Styling */
+.filter-container label {
+    font-size: small;
+    margin-right: 10px;
+    
+}
+
+/* Dropdown Styling */
+#statusFilter {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 180px;
+}
+
+/* Styling for the dropdown when focused */
+#statusFilter:focus {
+    outline: none;
+    border-color: #176B87;; /* Change the border color when focused */
+    box-shadow: 0 0 5px rgba(52, 121, 144, 0.5); /* Add a light shadow for focus */
+}
+
+#searchInput:focus {
+    outline: none;
+    border-color: #176B87;; /* Change the border color when focused */
+    box-shadow: 0 0 5px rgba(52, 121, 144, 0.5); /* Add a light shadow for focus */
+}
+
+

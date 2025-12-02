@@ -23,14 +23,15 @@
     <aside class="sidebar">
         <div class="sidebar-header">
             <img src="/image/image.png" alt="logo">
-           <h3>Title</h3>
+            <h3>BH Payment Monitoring </h3>
         </div>
         <ul class="sidebar-links">
             <!-- <h4>Main Menu</h4> -->
             <div class="menu-separator"></div>
             <li><a href="Admindashboard"><span class="material-symbols-outlined">Dashboard</span>Dashboard</a></li>
             <li><a href="usermanagement"><span class="material-symbols-outlined">Manage_Accounts</span>Tenants</a></li>
-             <li><a href="payment"><span class="material-symbols-outlined">payments</span>Payment</a></li>
+                        <li><a href="room"><span class="material-symbols-outlined">room_preferences</span>Room</a></li>
+            <li><a href="payment"><span class="material-symbols-outlined">payments</span>Payment</a></li>
             <li><a href="message"><span class="material-symbols-outlined">chat</span>Messages</a></li>
             <li><a href="/login"><span class="material-symbols-outlined">Logout</span>Logout</a></li>
         </ul>
@@ -42,7 +43,80 @@
             <h4>Messages</h4>
         </div>
 
-       <h4>butang lang here</h4>
+      <div class="tenant-chat-container">
+    <div class="tenant-list">
+        <h4>Tenants</h4>
+        <ul id="tenantList">
+            <li data-tenant="Juan Dela Cruz">Juan Dela Cruz</li>
+            <li data-tenant="Maria Santos">Maria Santos</li>
+            <li data-tenant="Pedro Reyes">Pedro Reyes</li>
+        </ul>
+    </div>
+
+    <div class="chat-section">
+        <div class="chat-header">
+            <h4 id="chatWith">Select a tenant to start chat</h4>
+        </div>
+
+        <div class="chat-box" id="chatBox">
+            <!-- Messages will appear here -->
+        </div>
+
+        <form id="chatForm">
+            <input type="text" id="messageInput" placeholder="Type a message..." disabled />
+            <button type="submit" class="btn-add" disabled>
+                <span class="material-symbols-outlined">send</span>Send
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+const tenantList = document.getElementById('tenantList');
+const chatWith = document.getElementById('chatWith');
+const chatBox = document.getElementById('chatBox');
+const chatForm = document.getElementById('chatForm');
+const messageInput = document.getElementById('messageInput');
+const sendButton = chatForm.querySelector('button');
+
+let currentTenant = null;
+
+// Click on tenant to start chat
+tenantList.addEventListener('click', function(e) {
+    if(e.target.tagName === 'LI') {
+        currentTenant = e.target.dataset.tenant;
+        chatWith.textContent = `Chat with ${currentTenant}`;
+        chatBox.innerHTML = ''; // Clear previous messages
+        messageInput.disabled = false;
+        sendButton.disabled = false;
+    }
+});
+
+// Send message
+chatForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    const messageText = messageInput.value.trim();
+    if(!messageText || !currentTenant) return;
+
+    // Tenant message (from admin perspective)
+    const adminMsg = document.createElement('div');
+    adminMsg.classList.add('message', 'admin-message');
+    adminMsg.textContent = messageText;
+    chatBox.appendChild(adminMsg);
+    chatBox.scrollTop = chatBox.scrollHeight;
+    messageInput.value = '';
+
+    // Simulate tenant reply
+    setTimeout(() => {
+        const tenantMsg = document.createElement('div');
+        tenantMsg.classList.add('message', 'tenant-message');
+        tenantMsg.textContent = `${currentTenant}: Thanks for the update!`;
+        chatBox.appendChild(tenantMsg);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }, 1000);
+});
+</script>
+
 
 </body>
 </html>

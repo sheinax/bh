@@ -184,386 +184,106 @@ body {
 }
 
 
-/* Button styling */
-.btn {
-    padding: 10px 15px;
-    border: none;
-    border-radius: 10px;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-}
-
-.btn-success {
-    margin-top: 20px; /* Adjust the value as needed */
-}
-
-.btn-add {
-    background-color: #176B87; 
-    color: white;
-    height: 40px;
-    font-size: 0.8em;
-    align-items: center;
+.tenant-chat-container {
     display: flex;
+    gap: 15px;
+    height: 60vh;
 }
 
-.btn-add span{
-    margin-right: 10px;
-}
-
-.btn-edit {
-    color: rgb(21, 160, 214); 
-    font-size: x-small; 
-    background: none; 
-    border: none; 
-    cursor: pointer; 
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
-  }
-  
-  .btn-edit:hover {
-    color: rgb(0, 123, 255); 
-    transform: scale(1.1); 
-  }
-  
-
-
-/* .btn-danger {
-    background-color: #dc3545; 
-    color: white;
-    font-size: x-small;
-    text-decoration: none;
-} */
-
-
-table{
-    font-size: small;
-    text-align: center;
-}
-
-
-/*horizontal scroll */
-.table-responsive {
-    overflow-x: auto; 
-    max-height: calc(85vh - 40px);
-    height: 50rem;
-    width: 100%;
-    padding-bottom: 10px;
-    margin-top: 10px;
-}
-
-.reports-table {
-    width: 100%;
-    min-width: 1100px; /* Adjust based on your needs */
-    background-color: #f8f9fa;
-    border-collapse: collapse;
-    text-align: center;
-    border-radius: 8px;
-}
-
-
-.reports-table th {
-    background-color: #176B87;
-    color: white;
-    padding: 10px;
-    /* font-weight: normal; */
-}
-.reports-table tbody td {
-    padding: 12px;
-    color: #333;
-    border-bottom: 1px solid #e9ecef;
-}
-
-/* .reports-table td {
-    padding: 8px;
-    border: 1px solid #ddd;
-    white-space: nowrap; 
-} */
-.reports-table tbody {
-    max-height: 60vh; /* Limit table body height for scrolling */
-    overflow-y: auto;
-    display: block; /* Allow independent scrolling */
-}
-
-.reports-table thead, .reports-table tbody tr {
-    display: table;
-    width: 100%; /* Maintain alignment */
-    table-layout: fixed; /* Prevent content misalignment */
-}
-
-
-.reports-table tbody tr:nth-child(even) {
+/* Tenant list */
+.tenant-list {
+    width: 200px;
     background-color: #f2f2f2;
-}
-
-.reports-table tbody tr:hover {
-    background-color: #46b2d643;
-}
-
-
-
-/* Responsive adjustments */
-@media (max-width: 430px) {
-    .main-content {
-        margin-left: 0;
-    }
-
-    .main-content h2, .main-content h4 {
-        font-size: 1.25rem;
-    }
-}
-
-
-@media (max-width: 768px) {
-    .main-content {
-        margin-left: 85px;
-        margin-top: 8%;
-    }
-
-    .sidebar {
-        width: 60px;
-    }
-
-    .sidebar:hover {
-        width: 200px;
-    }
-
-    .reports-table {
-        min-width: 800px;
-    }
-}
-
-/* Modal styling */
-/* Modal styling */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.5);
-    padding-top: 60px; /* Adds space from the top */
-}
-
-.modal-content {
-    background-color: #fefefe;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 250px; /* Fixed width for consistent size */
     border-radius: 8px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    overflow-y: auto;
 }
 
-
-.modal-content h2{
-    color: #176B87;
-    font-size: large;
-    margin-top: 8px;
+.tenant-list h4 {
+    margin-bottom: 10px;
+    color: #42224A;
 }
 
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+.tenant-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.tenant-list li {
+    padding: 8px 12px;
+    border-radius: 8px;
     cursor: pointer;
+    margin-bottom: 5px;
+    background-color: #eaeaea;
 }
 
-.close:hover,
-.close:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
+.tenant-list li:hover {
+    background-color: #42224A;
+    color: white;
 }
 
-/* Style for the Save Changes button */
-.editsaveButton {
-    background-color: #136f99; 
-    color: white; 
-    border: none; 
-    border-radius: 5px; /* Rounded corners */
-    font-size: small; 
-    cursor: pointer;
-    width: 100%; /* Full width button */
-    margin-top: 10px; 
-    transition: background-color 0.3s ease; 
-}
-
-/* Hover effect */
-.editsaveButton:hover {
-    background-color: #39a2e7; 
-}
-
-
-
-/* Form Input Styling */
-form {
+/* Chat section */
+.chat-section {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    color: #000;
-  
-   
 }
 
-form label {
-    font-size: small;
-    margin: 10px 0 5px;
-    color: rgb(91, 85, 85);
+.chat-box {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    background-color: #f7f7f7;
 }
 
-
-form input, form select {
-    padding: 5px;
-    font-size: small;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    margin-bottom: 5px;
-    width: 100%;
- 
+.message {
+    padding: 8px 12px;
+    border-radius: 12px;
+    margin-bottom: 8px;
+    max-width: 70%;
+    word-wrap: break-word;
 }
 
-form button {
-    background-color: #007bff;
+.admin-message {
+    background-color: #42224A;
     color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
+    align-self: flex-start;
 }
 
-form button:hover {
-    background-color: #0056b3;
-}
-
-/* Button styling */
-.btn-success {
-    background-color: #176b87;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-}
-
-.btn-success:hover {
-    background-color: #104e63;
-}
-
-
-
-
-.form-text{
-    font-size: x-small;
-    color: darkgray;
-}
-
-
-
-
-
-.add-search {
-    display: flex;
-    justify-content: space-between; 
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-.filter-section{
-    display: flex;
-    justify-content: space-between;
-}
-
-/* Styles for Search Container */
-.search-container {
-    align-items: center;
-    margin-top: 10px;
-
-}
-
-.search-container label {
-    font-size: 1rem;
-    font-weight: 500;
+.tenant-message {
+    background-color: #e2e2e2;
     color: #333;
-    margin-right: 10px;
+    align-self: flex-end;
 }
 
-#searchInput {
+#chatForm {
+    display: flex;
+    gap: 10px;
+}
+
+#messageInput {
+    flex: 1;
     padding: 8px;
-    font-size: 0.9rem;
-    border-radius: 5px;
+    border-radius: 8px;
     border: 1px solid #ccc;
-    width: 250px;
+    font-size: 0.9rem;
 }
 
-
-/* Styles for Search Container with Icon */
-.search-container {
+#chatForm button {
+    padding: 8px 12px;
+    border-radius: 8px;
+    background-color: #42224A;
+    color: white;
+    border: none;
     display: flex;
     align-items: center;
-    margin-bottom: 15px;
-    position: relative;
+    gap: 5px;
+    cursor: pointer;
 }
 
-.search-container .search-icon {
-    position: absolute;
-    left: 10px;
-    color: #888;
-    font-size: 1.25rem;
+#chatForm button:hover {
+    background-color: #42224A;
 }
-
-#searchInput {
-    padding: 8px 8px 8px 35px; /* Padding adjusted for icon */
-    font-size: 0.9rem;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    width: 500px;
-}
-
-
-
-
-/* Filter Container */
-.filter-container {
-    justify-content: flex-end; 
-    align-items: center;
-    margin: 10px 0;
-}
-
-/* Label Styling */
-.filter-container label {
-    font-size: small;
-    margin-right: 10px;
-    
-}
-
-/* Dropdown Styling */
-#statusFilter {
-    padding: 8px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 180px;
-}
-
-/* Styling for the dropdown when focused */
-#statusFilter:focus {
-    outline: none;
-    border-color: #176B87;; /* Change the border color when focused */
-    box-shadow: 0 0 5px rgba(52, 121, 144, 0.5); /* Add a light shadow for focus */
-}
-
-#searchInput:focus {
-    outline: none;
-    border-color: #176B87;; /* Change the border color when focused */
-    box-shadow: 0 0 5px rgba(52, 121, 144, 0.5); /* Add a light shadow for focus */
-}
-
-
