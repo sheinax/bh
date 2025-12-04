@@ -576,3 +576,36 @@ form button:hover {
 }
 
 
+.btn-edit,
+.btn-delete {
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 6px 8px;
+    border-radius: 6px;
+    transition: 0.2s ease;
+}
+
+/* Edit Button */
+.btn-edit {
+    color: #0275d8; /* Blue */
+}
+
+.btn-edit:hover {
+    background-color: #e6f2ff;
+}
+
+/* Delete Button */
+.btn-delete {
+    color: #d9534f; /* Red */
+}
+
+.btn-delete:hover {
+    background-color: #ffe6e6;
+}
+
+/* Material icon alignment */
+.btn-edit .material-icons,
+.btn-delete .material-icons {
+    vertical-align: middle;
+}

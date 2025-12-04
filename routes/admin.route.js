@@ -29,6 +29,12 @@ router.get("/admin/rooms", admin_Controller.getRooms);
 // Add a new room
 router.post("/admin/addRoom", admin_Controller.addRoom);
 
+// Update Room
+router.put("/admin/updateRoom/:id", admin_Controller.updateRoom);
+
+// Delete Room
+router.delete("/admin/deleteRoom/:id", admin_Controller.deleteRoom);
+
 
 router.get("/admin/getTotalActiveTenants", admin_Controller.getTotalActiveTenants);
 

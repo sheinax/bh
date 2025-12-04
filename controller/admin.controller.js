@@ -240,15 +240,38 @@ const getRooms = async (req, res) => {
     }
 };
 
-// ADD a new room
+// ADD a new room (robust version)
 const addRoom = async (req, res) => {
-    const { Room_Number, Room_Type, Rent_Amount, Availability_Status } = req.body;
-
-    if (!Room_Number || !Room_Type || !Rent_Amount || !Availability_Status) {
-        return res.status(400).json({ error: "All fields are required" });
-    }
-
     try {
+        console.log("Incoming addRoom payload:", req.body);
+
+        // Accept multiple key shapes (just in case)
+        const Room_Number = req.body.Room_Number ?? req.body.roomNumber ?? req.body.RoomNumber;
+        const Room_Type = req.body.Room_Type ?? req.body.roomType ?? req.body.RoomType;
+        const Rent_Amount_raw = req.body.Rent_Amount ?? req.body.rentAmount ?? req.body.RentAmount;
+        const Availability_Status = req.body.Availability_Status ?? req.body.availabilityStatus ?? req.body.AvailabilityStatus;
+
+        // Basic validation
+        if (!Room_Number || !Room_Type || !Rent_Amount_raw || !Availability_Status) {
+            console.warn("Validation failed - missing fields:", { Room_Number, Room_Type, Rent_Amount_raw, Availability_Status });
+            return res.status(400).json({ error: "All fields are required" });
+        }
+
+        // Normalize rent to a number
+        const Rent_Amount = Number(Rent_Amount_raw);
+        if (Number.isNaN(Rent_Amount) || Rent_Amount < 0) {
+            console.warn("Invalid rent amount:", Rent_Amount_raw);
+            return res.status(400).json({ error: "Invalid Rent_Amount" });
+        }
+
+        // Optional: check duplicate Room_Number if that should be unique
+        const existing = await models.Room.findOne({ where: { Room_Number } });
+        if (existing) {
+            console.warn("Attempt to add duplicate room number:", Room_Number);
+            return res.status(409).json({ error: "Room number already exists" });
+        }
+
+        // Create room
         const newRoom = await models.Room.create({
             Room_Number,
             Room_Type,
@@ -256,15 +279,53 @@ const addRoom = async (req, res) => {
             Availability_Status
         });
 
-        res.json({ message: "Room added successfully", room: newRoom });
+        console.log("Room created:", newRoom.toJSON ? newRoom.toJSON() : newRoom);
+        return res.status(201).json({ message: "Room added successfully", room: newRoom });
     } catch (error) {
-        console.error("Error adding room:", error);
-        res.status(500).json({ error: "Unable to add room" });
+        console.error("Error in addRoom:", error);
+        return res.status(500).json({ error: "Unable to add room", details: error.message });
     }
 };
 
 
+//update room
+
+const updateRoom = async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        const data = {
+            Room_Number: req.body.Room_Number,
+            Room_Type: req.body.Room_Type,
+            Rent_Amount: req.body.Rent_Amount,
+            Availability_Status: req.body.Availability_Status
+        };
+
+        await models.Room.update(data, { where: { id } });
+
+        res.json({ message: "Room updated successfully" });
+    } catch (error) {
+        console.error("Error updating room:", error);
+        res.status(500).json({ error: "Failed to update room" });
+    }
+};
+
+const deleteRoom = async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        await models.Room.destroy({ where: { id } });
+
+        res.json({ message: "Room deleted successfully" });
+    } catch (error) {
+        console.error("Error deleting room:", error);
+        res.status(500).json({ error: "Failed to delete room" });
+    }
+};
+
 module.exports = {
+    updateRoom,
+    deleteRoom,
     addRoom,
     getRooms,
     Admindashboard_view,

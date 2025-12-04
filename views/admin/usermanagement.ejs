@@ -120,18 +120,19 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="ContactNumber">Contact Number:</label>
-                        <input type="tel" 
-                               class="form-control" 
-                               id="ContactNumber" 
-                               name="contactNumber_data" 
-                               pattern="[0-9]{11}" 
-                               maxlength="11" 
-                               minlength="11" 
-                               required 
-                               title="Contact number must be exactly 11 digits (e.g., 09123456789)">
-                        <!-- <small class="form-text text-muted">Enter 11-digit contact number (e.g., 09123456789).</small> -->
-                    </div>
+    <label for="ContactNumber">Contact Number:</label>
+    <input type="tel" 
+           class="form-control" 
+           id="ContactNumber" 
+           name="contactNumber_data" 
+           pattern="[0-9]{11}" 
+           maxlength="11" 
+           minlength="11" 
+           required 
+           oninput="this.value = this.value.replace(/[^0-9]/g, '');"
+           title="Contact number must be exactly 11 digits (e.g., 09123456789)">
+</div>
+
                     
 
                 

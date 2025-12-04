@@ -16,7 +16,7 @@ app.set("view engine", "ejs"); // Register ejs package
 app.use(express.urlencoded({ extended: true })); // Send data using form
 app.use(cookieParser()); // Use cookie-parser middleware
 app.use(express.static(path.join(__dirname, "public"))); // Register static files
-
+app.use(express.json());
 
 app.use(tenant_router); 
 app.use(admin_router); 
