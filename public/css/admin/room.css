@@ -553,29 +553,6 @@ form button:hover {
     
 }
 
-/* Dropdown Styling */
-#statusFilter {
-    padding: 8px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 180px;
-}
-
-/* Styling for the dropdown when focused */
-#statusFilter:focus {
-    outline: none;
-    border-color: #176B87;; /* Change the border color when focused */
-    box-shadow: 0 0 5px rgba(52, 121, 144, 0.5); /* Add a light shadow for focus */
-}
-
-#searchInput:focus {
-    outline: none;
-    border-color: #176B87;; /* Change the border color when focused */
-    box-shadow: 0 0 5px rgba(52, 121, 144, 0.5); /* Add a light shadow for focus */
-}
-
-
 .btn-edit,
 .btn-delete {
     border: none;
@@ -608,4 +585,88 @@ form button:hover {
 .btn-edit .material-icons,
 .btn-delete .material-icons {
     vertical-align: middle;
+}
+
+
+/* Dropdown Styling */
+
+/* Container holding both filters */
+.filter-container {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Space between filters */
+    margin: 10px 0;
+}
+
+/* Labels inside filter */
+.filter-container label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #333;
+}
+
+/* Dropdown styling */
+.filter-container select {
+    padding: 6px 10px;
+    font-size: 0.85rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    cursor: pointer;
+    min-width: 140px;
+    transition: all 0.3s ease;
+}
+
+/* Focus effect for dropdowns */
+.filter-container select:focus {
+    outline: none;
+    border-color: #42224A;
+    box-shadow: 0 0 5px rgba(66, 34, 74, 0.4);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .filter-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .filter-container select {
+        width: 100%;
+    }
+}
+
+
+#pagination {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+#pagination button {
+    padding: 5px 10px;
+    border: 1px solid #42224A;
+    background: #fff;
+    color: #42224A;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: 0.2s;
+}
+
+#pagination button:hover:not(:disabled) {
+    background-color: #42224A;
+    color: #fff;
+}
+
+#pagination button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+#pagination button.active {
+    background-color: #42224A;
+    color: #fff;
 }

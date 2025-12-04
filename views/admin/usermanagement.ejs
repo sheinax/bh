@@ -26,7 +26,7 @@
     </div>
     <aside class="sidebar">
         <div class="sidebar-header">
-            <img src="/image/image.png" alt="logo">
+            <img src="/image/logo.png" alt="logo">
            <h3>BH Payment Monitoring </h3>
         </div>
         <ul class="sidebar-links">
@@ -69,9 +69,9 @@
 
            <!-- SEARCH Filter Dropdown -->
     <div class="filter-container">
-        <!-- <label for="statusFilter">Filter by Status:</label> -->
+        <label for="statusFilter">Filter by Status:</label>
         <select id="statusFilter">
-            <option value="All">Filter by Status:</option>
+            <option value="All">All</option>
             <option value="Active">Active</option>
             <option value="Inactive">Inactive</option>
         </select>
@@ -163,7 +163,7 @@
             <table class="reports-table">
                 <thead>
                     <tr>
-                        <th>Tenant ID</th>
+                        <!-- <th>Tenant ID</th> -->
                         <th>Lastname</th>
                         <th>Firstname</th>
                         <th>Address</th>
@@ -180,7 +180,7 @@
               <tbody id="userTableBody"> 
                 <% users.forEach(user => { %>
                     <tr>
-                        <td><%= user.Users_ID %></td>
+                        <!-- <td><%= user.Users_ID %></td> -->
                         <td><%= user.LastName %></td>
                         <td><%= user.FirstName %></td>
                         <td><%= user.Address %></td>
@@ -260,38 +260,44 @@
     const editUserModal = document.getElementById("editUserModal");
     const closeEditModal = document.getElementById("closeEditModal");
     const editUserForm = document.getElementById("editUserForm");
+
     editButtons.forEach((button) => {
-    button.addEventListener("click", function (event) {
-        event.preventDefault();
-        const userRow = this.closest("tr");
-        const userId = userRow.querySelector("td").textContent;
+        button.addEventListener("click", function (event) {
+            event.preventDefault();
 
-        const lastName = userRow.children[1].textContent;
-        const firstName = userRow.children[2].textContent;
-        const contactNumber = userRow.children[5].textContent;
-        const currentStatus = userRow.children[7].textContent; // Assuming status is in the 8th column (index 7)
+            // Get user ID from href
+            const userId = this.getAttribute('href').split('/').pop();
 
-        // Populate modal fields
-        editUserForm.action = `/admin/editUser/${userId}`;
+            const userRow = this.closest("tr");
 
-        document.getElementById("editLastName").value = lastName;
-        document.getElementById("editFirstName").value = firstName;
-        document.getElementById("editContactNumber").value = contactNumber;
+            const lastName = userRow.children[0].textContent; // index 0 now because ID column removed
+            const firstName = userRow.children[1].textContent;
+            const address = userRow.children[2].textContent;
+            const gender = userRow.children[3].textContent;
+            const contactNumber = userRow.children[4].textContent;
+            const username = userRow.children[5].textContent;
+            const currentStatus = userRow.children[6].textContent; // Status column
 
-        // Set the status dropdown based on the current status
-        document.getElementById("edit_status").value = currentStatus;
+            // Populate modal fields
+            editUserForm.action = `/admin/editUser/${userId}`;
 
-        // Show modal
-        editUserModal.style.display = "block";
+            document.getElementById("editLastName").value = lastName;
+            document.getElementById("editFirstName").value = firstName;
+            document.getElementById("editContactNumber").value = contactNumber;
+            document.getElementById("edit_status").value = currentStatus;
+
+            // Show modal
+            editUserModal.style.display = "block";
+        });
     });
-});
 
-
+    // Close modal
     closeEditModal.onclick = () => (editUserModal.style.display = "none");
     window.onclick = (event) => {
         if (event.target === editUserModal) editUserModal.style.display = "none";
     };
 </script>
+
 
     <script>
 
@@ -314,7 +320,7 @@
         const rows = document.querySelectorAll("#userTableBody tr");
 
         rows.forEach((row) => {
-            const statusCell = row.children[7]; // Assuming the "Status" column is at index 7
+            const statusCell = row.children[6]; 
             if (filter === "All" || statusCell.textContent === filter) {
                 row.style.display = "";
             } else {

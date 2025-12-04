@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
-        Address: {                  // Added Address field
+        Address: {                 
             type: DataTypes.STRING,
             allowNull: false
         },

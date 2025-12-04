@@ -22,7 +22,7 @@
     </div>
     <aside class="sidebar">
         <div class="sidebar-header">
-            <img src="/image/image.png" alt="logo">
+            <img src="/image/logo.png" alt="logo">
           <h3>BH Payment Monitoring </h3>
         </div>
         <ul class="sidebar-links">
@@ -42,7 +42,7 @@
      <!-- Main Content -->
      <main class="main-content">
         <div class="sticky-header">
-            <h2>Overview</h2>
+            <h2>Dashboard</h2>
         </div>
     
         <!-- Metrics Section -->
@@ -84,7 +84,7 @@
 
                     <div class="metric-box">
                         <h6>Net Balance</h6>
-                        <!-- <div class="stat-number" id="totalPatients"> -->
+                        <!-- <div class="stat-number" id="totalNetbalance"> -->
                            <div class="stat-number" >  ₱35,45 
                         </div>
                         <span class="material-symbols-outlined icon-large"> account_balance_wallet</span>
@@ -123,50 +123,76 @@
         </div>
 
 
-        <section class="reports-metrics">
-            <div class="metrics">
-                <div class="metrics-group">
-                    <div class="metric-box">
-                        <h6>Total Rooms</h6>
-                        <!-- <div class="stat-number" id="totalStaffUsers"> -->
-                       <div class="stat-number" >100   
-                        </div>
-                        <span class="material-symbols-outlined icon-large"> meeting_room</span>
-                    </div>
-                
-                    <div class="metric-box">
-                        <h6>Occupied Rooms</h6>
-                        <!-- <div class="stat-number" id="totalActiveStaff"> -->
-                        <div class="stat-number" >  60  
-                        </div>
-                        <span class="material-symbols-outlined icon-large">people</span> 
-                    </div>
+    <section class="reports-metrics">
+    <div class="metrics">
+        <div class="metrics-group">
+           <div class="metric-box">
+    <h6>Total Rooms</h6>
+    <div class="stat-number" id="totalRooms">Loading...</div>
+    <span class="material-symbols-outlined icon-large">meeting_room</span>
 
-                    <div class="metric-box">
-                        <h6>Vacant Rooms</h6>
-                        <!-- <div class="stat-number" id="totalPatients"> -->
-                         <div class="stat-number" > 40      
-                        </div>
-                       <span class="material-symbols-outlined icon-large"> night_shelter</span>
-                    </div>
-                
-                   
-                
-                
-            </div>
-        </section>
-        
+</div>
+
+<script>
+fetch('/admin/getTotalRooms')
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById('totalRooms').innerText = data.totalRooms;
+    })
+    .catch(err => {
+        console.error('Error fetching total rooms:', err);
+        document.getElementById('totalRooms').innerText = 'Error';
+    });
+</script>
+
+
+          <div class="metric-box">
+    <h6>Occupied Rooms</h6>
+    <div class="stat-number" id="occupiedRooms">Loading...</div>
+</div>
+
+<div class="metric-box">
+    <h6>Available Rooms</h6>
+    <div class="stat-number" id="availableRooms">Loading...</div>
+</div>
+
+
+<script>
+fetch('/admin/getRoomStats')
+    .then(res => res.json())
+    .then(data => {
+        // Occupied rooms
+        const occupiedEl = document.getElementById('occupiedRooms');
+        let occupiedHtml = `${Object.values(data.occupied).reduce((a,b)=>a+b,0)}<div class="room-types">`;
+        for (const [type, count] of Object.entries(data.occupied)) {
+            occupiedHtml += `<p>${type}: ${count}</p>`;
+        }
+        occupiedHtml += `</div>`;
+        occupiedEl.innerHTML = occupiedHtml;
+
+        // Available rooms
+        const availableEl = document.getElementById('availableRooms');
+        let availableHtml = `${Object.values(data.available).reduce((a,b)=>a+b,0)}<div class="room-types">`;
+        for (const [type, count] of Object.entries(data.available)) {
+            availableHtml += `<p>${type}: ${count}</p>`;
+        }
+        availableHtml += `</div>`;
+        availableEl.innerHTML = availableHtml;
+    })
+    .catch(err => {
+        console.error('Error fetching room stats:', err);
+        document.getElementById('occupiedRooms').innerText = 'Error';
+        document.getElementById('availableRooms').innerText = 'Error';
+    });
+</script>
+
+</section>
+
 
 <br>
 
 <br>
 
-             <div class="sticky-header">
-            <h2>Tenants Details</h2>
-        </div>
-
-
-         </div>
         
         
 

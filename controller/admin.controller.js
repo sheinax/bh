@@ -323,7 +323,53 @@ const deleteRoom = async (req, res) => {
     }
 };
 
+
+// GET TOTAL ROOMS
+
+const getTotalRooms = async (req, res) => {
+    try {
+        const totalRooms = await models.Room.count(); // counts all rows
+        res.json({ totalRooms });
+    } catch (error) {
+        console.error("Error fetching total rooms:", error);
+        res.status(500).json({ error: "Unable to fetch total rooms" });
+    }
+};
+
+// Get room stats
+const getRoomStats = async (req, res) => {
+    try {
+        // Fetch all rooms
+        const rooms = await models.Room.findAll();
+
+        // Initialize counts
+        const stats = {
+            total: rooms.length,
+            occupied: {},
+            available: {}
+        };
+
+        rooms.forEach(room => {
+            const type = room.Room_Type || "Unknown";
+            if (room.Availability_Status === "Occupied") {
+                stats.occupied[type] = (stats.occupied[type] || 0) + 1;
+            } else if (room.Availability_Status === "Available") {
+                stats.available[type] = (stats.available[type] || 0) + 1;
+            }
+        });
+
+        res.json(stats);
+
+    } catch (error) {
+        console.error("Error fetching room stats:", error);
+        res.status(500).json({ error: "Unable to fetch room stats" });
+    }
+};
+
+
 module.exports = {
+    getRoomStats,
+    getTotalRooms,
     updateRoom,
     deleteRoom,
     addRoom,

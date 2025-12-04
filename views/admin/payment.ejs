@@ -25,7 +25,7 @@
     </div>
     <aside class="sidebar">
         <div class="sidebar-header">
-            <img src="/image/image.png" alt="logo">
+            <img src="/image/logo.png" alt="logo">
             <h3>BH Payment Monitoring </h3>
         </div>
         <ul class="sidebar-links">
@@ -45,10 +45,168 @@
         <div class="sticky-header">
             <h4>Payment</h4>    
         </div>    
+    </div>
 
-     </div>
+    <!-- Deposit Table -->
+    <section class="table-section">
+        <div class="table-header">
+            <h5>Tenant Deposits</h5>
+            <button class="btn-add" onclick="openModal('deposit')">Add Deposit</button>
+        </div>
+        <table class="payment-table">
+            <thead>
+                <tr>
+                    <th>Tenant Name</th>
+                    <th>Deposit Amount</th>
+                    <th>Partial Deposit</th>
+                    <th>Partial Date</th>
+                    <th>Balance Deposit</th>
+                    <th>Payment Status</th>
+                    <th>Date Paid</th>
+                </tr>
+            </thead>
+            <tbody id="deposit-table-body">
+                <tr>
+                    <td>Juan Dela Cruz</td>
+                    <td>₱5,000</td>
+                    <td>₱2,500</td>
+                    <td>2025-11-20</td>
+                    <td>₱2,500</td>
+                    <td>Partial</td>
+                    <td>2025-11-20</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
 
-     </main>
+    <!-- Monthly Payment Table -->
+    <section class="table-section">
+        <div class="table-header">
+            <h5>Monthly Payments</h5>
+            <button class="btn-add" onclick="openModal('monthly')">Add Payment</button>
+        </div>
+        <table class="payment-table">
+         <thead>
+    <tr>
+        <th>Tenant Name</th>
+        <th>Monthly Due Date</th>
+        <th>Monthly Rent</th>
+        <th>Date Paid</th>
+        <th>Amount Paid</th>
+        <th>Remaining Balance</th>
+    </tr>
+</thead>
+
+            <tbody id="monthly-table-body">
+                <tr>
+                    <td>2025-12-01</td>
+                    <td>₱3,000</td>
+                    <td>2025-12-02</td>
+                    <td>₱3,000</td>
+                    <td>₱0</td>
+                    <td>₱0</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h4 id="modal-title">Add Record</h4>
+            <form id="modal-form">
+                <!-- Form fields will be injected dynamically -->
+            </form>
+        </div>
+    </div>
+</main>
+<script>
+function openModal(type) {
+    const modal = document.getElementById('modal');
+    const form = document.getElementById('modal-form');
+    const title = document.getElementById('modal-title');
+    form.innerHTML = ''; // Clear previous inputs
+
+    if(type === 'deposit') {
+        title.textContent = 'Add Deposit';
+        form.innerHTML = `
+            <input type="text" name="tenant" placeholder="Tenant Name" required>
+            <input type="number" name="deposit" placeholder="Deposit Amount" required>
+            <input type="number" name="partial" placeholder="Partial Deposit">
+            <input type="date" name="partialDate" placeholder="Partial Date">
+            <input type="number" name="balance" placeholder="Balance Deposit">
+            <select name="status">
+                <option value="Paid">Paid</option>
+                <option value="Partial">Partial</option>
+            </select>
+            <input type="date" name="datePaid" placeholder="Date Paid">
+            <button type="submit">Add</button>
+        `;
+    } else if(type === 'monthly') {
+        title.textContent = 'Add Monthly Payment';
+        form.innerHTML = `
+            <input type="text" name="tenant" placeholder="Tenant Name" required>
+            <input type="date" name="dueDate" placeholder="Monthly Due Date" required>
+            <input type="number" name="rent" placeholder="Monthly Rent" required>
+            <input type="date" name="datePaid" placeholder="Date Paid">
+            <input type="number" name="amountPaid" placeholder="Amount Paid">
+            <input type="number" name="remaining" placeholder="Remaining Balance">
+            <button type="submit">Add</button>
+        `;
+    }
+
+    form.onsubmit = function(e){
+        e.preventDefault();
+        addRow(type, form);
+        closeModal();
+    }
+
+    modal.style.display = 'block';
+}
+
+
+function closeModal() {
+    document.getElementById('modal').style.display = 'none';
+}
+
+function addRow(type, form) {
+    if(type === 'deposit') {
+        const tbody = document.getElementById('deposit-table-body');
+        const row = `<tr>
+            <td>${form.tenant.value}</td>
+            <td>₱${form.deposit.value}</td>
+            <td>₱${form.partial.value || 0}</td>
+            <td>${form.partialDate.value || ''}</td>
+            <td>₱${form.balance.value || 0}</td>
+            <td>${form.status.value}</td>
+            <td>${form.datePaid.value || ''}</td>
+        </tr>`;
+        tbody.insertAdjacentHTML('beforeend', row);
+    } else if(type === 'monthly') {
+    const tbody = document.getElementById('monthly-table-body');
+    const row = `<tr>
+        <td>${form.tenant.value}</td>
+        <td>${form.dueDate.value}</td>
+        <td>₱${form.rent.value}</td>
+        <td>${form.datePaid.value || ''}</td>
+        <td>₱${form.amountPaid.value || 0}</td>
+        <td>₱${form.remaining.value || 0}</td>
+    </tr>`;
+    tbody.insertAdjacentHTML('beforeend', row);
+}
+
+}
+
+// Close modal if clicked outside content
+window.onclick = function(event) {
+    const modal = document.getElementById('modal');
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
+
 
 
 </body>

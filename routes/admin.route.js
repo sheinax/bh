@@ -35,7 +35,12 @@ router.put("/admin/updateRoom/:id", admin_Controller.updateRoom);
 // Delete Room
 router.delete("/admin/deleteRoom/:id", admin_Controller.deleteRoom);
 
+// totAL ROOMS
+router.get("/admin/getTotalRooms", admin_Controller.getTotalRooms);
 
+router.get("/admin/getRoomStats", admin_Controller.getRoomStats);
+
+//TOTAL ACTIVE TENANTS
 router.get("/admin/getTotalActiveTenants", admin_Controller.getTotalActiveTenants);
 
 // Add new tenant
@@ -47,7 +52,9 @@ router.post("/admin/addUser", admin_Controller.addUser);
 router.get("/admin/editUser/:id", admin_Controller.editUser);
 router.post("/admin/editUser/:id", admin_Controller.updateUser);
 
-// Update User route
+// Update
 router.post("/admin/editUser/:id", admin_Controller.updateUser);
+
+
 
 module.exports = router;

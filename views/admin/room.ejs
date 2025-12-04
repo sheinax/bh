@@ -25,7 +25,7 @@
     <!-- Sidebar -->
     <aside class="sidebar">
         <div class="sidebar-header">
-            <img src="/image/image.png" alt="logo">
+            <img src="/image/logo.png" alt="logo">
             <h3>BH Payment Monitoring</h3>
         </div>
         <ul class="sidebar-links">
@@ -42,7 +42,7 @@
     <!-- Main Content -->
     <main class="main-content p-4 w-100">
         <div class="sticky-header">
-            <h4>Room</h4>
+            <h4>Room Management</h4>
         </div>
 
         <!-- Add Room + Search + Filter -->
@@ -56,14 +56,24 @@
                 <input type="text" id="searchInput" placeholder="Search ...">
             </div>
 
-            <div class="filter-container">
-                <label for="statusFilter">Filter by Status:</label>
-                <select id="statusFilter">
-                    <option value="All">All</option>
-                    <option value="Available">Available</option>
-                    <option value="Occupied">Occupied</option>
-                </select>
-            </div>
+    <div class="filter-container">
+            
+    <label for="typeFilter" style="margin-left:15px;">Filter by Type:</label>
+    <select id="typeFilter">
+        <option value="All">All</option>
+        <option value="Bed Spacer">Bed Spacer</option>
+        <option value="Regular">Regular</option>
+    </select>
+
+    <label for="statusFilter">Filter by Status:</label>
+    <select id="statusFilter">
+        <option value="All">All</option>
+        <option value="Available">Available</option>
+        <option value="Occupied">Occupied</option>
+    </select>
+
+</div>
+
         </div>
 
         <!-- Add Room Modal -->
@@ -129,13 +139,13 @@
     </div>
 </div>
 
-
+ <div class="pagination" id="pagination"></div>
         <!-- Table -->
         <div class="table-responsive">
             <table class="reports-table">
                 <thead>
                     <tr>
-                        <th>Room ID</th>
+                        <!-- <th>Room ID</th> -->
                         <th>Room Number</th>
                         <th>Room Type</th>
                         <th>Rent Amount</th>
@@ -147,11 +157,13 @@
                     <!-- Dynamic content loaded via JS -->
                 </tbody>
             </table>
+           
+
         </div>
     </main>
 
-    <!-- Scripts -->
-    <script>
+    
+<script>
     // Modal open/close
     const addBtn = document.getElementById("addRoomBtn");
     const addModal = document.getElementById("addRoomModal");
@@ -161,16 +173,30 @@
     closeAdd.onclick = () => addModal.style.display = "none";
     window.onclick = (event) => { if(event.target == addModal) addModal.style.display = "none"; }
 
-    // Fetch Rooms and display
     const tableBody = document.querySelector(".reports-table tbody");
+    let currentPage = 1;
+    const rowsPerPage = 7;
+
+    // Fetch Rooms and display
     async function fetchRooms() {
         const res = await fetch("/admin/rooms");
         const rooms = await res.json();
+
+        const totalPages = Math.ceil(rooms.length / rowsPerPage);
+        renderTablePage(rooms, currentPage, rowsPerPage);
+        renderPagination(totalPages, rooms);
+    }
+
+    function renderTablePage(rooms, page, rowsPerPage) {
         tableBody.innerHTML = "";
-        rooms.forEach(room => {
+        const start = (page - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
+        const paginatedRooms = rooms.slice(start, end);
+
+        paginatedRooms.forEach(room => {
             const tr = document.createElement("tr");
+            tr.dataset.id = room.id; // store ID here, hidden from table
             tr.innerHTML = `
-                <td>${room.id}</td>
                 <td>${room.Room_Number}</td>
                 <td>${room.Room_Type}</td>
                 <td>₱${room.Rent_Amount}</td>
@@ -180,144 +206,158 @@
                 <td>
                   <button class="btn-edit" title="Edit">
                     <span class="material-icons" style="font-size:14px;">edit</span>
-                </button>
-
-                <button class="btn-delete" title="Delete">
+                  </button>
+                  <button class="btn-delete" title="Delete">
                     <span class="material-icons" style="font-size:14px; color:#d9534f;">delete</span>
-                </button>
-
+                  </button>
                 </td>
             `;
             tableBody.appendChild(tr);
         });
     }
+
+    function renderPagination(totalPages, rooms) {
+        const pagination = document.getElementById("pagination");
+        pagination.innerHTML = "";
+
+        const prevBtn = document.createElement("button");
+        prevBtn.textContent = "<";
+        prevBtn.disabled = currentPage === 1;
+        prevBtn.onclick = () => { currentPage--; renderTablePage(rooms, currentPage, rowsPerPage); renderPagination(totalPages, rooms); };
+        pagination.appendChild(prevBtn);
+
+        for (let i = 1; i <= totalPages; i++) {
+            const btn = document.createElement("button");
+            btn.textContent = i;
+            btn.classList.toggle("active", i === currentPage);
+            btn.onclick = () => { currentPage = i; renderTablePage(rooms, currentPage, rowsPerPage); renderPagination(totalPages, rooms); };
+            pagination.appendChild(btn);
+        }
+
+        const nextBtn = document.createElement("button");
+        nextBtn.textContent = ">";
+        nextBtn.disabled = currentPage === totalPages;
+        nextBtn.onclick = () => { currentPage++; renderTablePage(rooms, currentPage, rowsPerPage); renderPagination(totalPages, rooms); };
+        pagination.appendChild(nextBtn);
+    }
+
     fetchRooms();
 
     // Add Room Form
-   const addRoomForm = document.getElementById("addRoomForm");
-addRoomForm.addEventListener("submit", async e => {
-    e.preventDefault();
-    const data = {
-        Room_Number: document.getElementById("roomNumber").value,
-        Room_Type: document.getElementById("roomType").value,
-        Rent_Amount: document.getElementById("rentAmount").value,
-        Availability_Status: document.getElementById("availabilityStatus").value
-    };
+    const addRoomForm = document.getElementById("addRoomForm");
+    addRoomForm.addEventListener("submit", async e => {
+        e.preventDefault();
+        const data = {
+            Room_Number: document.getElementById("roomNumber").value,
+            Room_Type: document.getElementById("roomType").value,
+            Rent_Amount: document.getElementById("rentAmount").value,
+            Availability_Status: document.getElementById("availabilityStatus").value
+        };
 
-    console.log("Sending addRoom request:", data);
+        try {
+            const res = await fetch("/admin/addRoom", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            });
+            const result = await res.json();
+            alert(result.message);
+            addRoomForm.reset();
+            addModal.style.display = "none";
+            fetchRooms();
+        } catch (err) {
+            console.error(err);
+            alert("Error adding room.");
+        }
+    });
 
-    try {
-        const res = await fetch("/admin/addRoom", {
-            method: "POST",
+    // Edit Room Modal
+    const editModal = document.getElementById("editRoomModal");
+    const closeEdit = document.getElementById("closeEditModal");
+
+    document.addEventListener("click", function(e) {
+        if(e.target.closest(".btn-edit")) {
+            const row = e.target.closest("tr");
+            const id = row.dataset.id;
+
+            document.getElementById("editRoomId").value = id;
+            document.getElementById("editRoomNumber").value = row.cells[0].innerText;
+            document.getElementById("editRoomType").value = row.cells[1].innerText;
+            document.getElementById("editRentAmount").value = row.cells[2].innerText.replace("₱", "");
+            document.getElementById("editAvailabilityStatus").value = row.cells[3].innerText;
+
+            editModal.style.display = "block";
+        }
+
+        if(e.target.closest(".btn-delete")) {
+            const row = e.target.closest("tr");
+            const id = row.dataset.id;
+
+            if(!confirm("Are you sure you want to delete this room?")) return;
+
+            fetch(`/admin/deleteRoom/${id}`, { method: "DELETE" })
+            .then(res => res.json())
+            .then(result => {
+                alert(result.message);
+                fetchRooms();
+            });
+        }
+    });
+
+    closeEdit.onclick = () => editModal.style.display = "none";
+
+    document.getElementById("editRoomForm").addEventListener("submit", async function(e){
+        e.preventDefault();
+        const id = document.getElementById("editRoomId").value;
+
+        const data = {
+            Room_Number: document.getElementById("editRoomNumber").value,
+            Room_Type: document.getElementById("editRoomType").value,
+            Rent_Amount: document.getElementById("editRentAmount").value,
+            Availability_Status: document.getElementById("editAvailabilityStatus").value
+        };
+
+        const res = await fetch(`/admin/updateRoom/${id}`, {
+            method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data)
         });
 
-        const result = await res.json().catch(() => null);
-        console.log("addRoom response status:", res.status, "body:", result);
-
-        if (res.ok) {
-            alert(result.message || "Room added");
-            addRoomForm.reset();
-            document.getElementById("addRoomModal").style.display = "none";
-            fetchRooms();
-        } else {
-            // show useful info from server
-            const msg = (result && (result.error || result.message)) || `Server returned ${res.status}`;
-            alert("Failed to add room: " + msg);
-        }
-    } catch (error) {
-        console.error("Network or other error adding room:", error);
-        alert("Network error when adding room. Check console.");
-    }
-});
-
-//edit room
-document.addEventListener("click", async function (e) {
-    if (e.target.closest(".btn-edit")) {
-        const row = e.target.closest("tr");
-        const id = row.cells[0].innerText;
-
-        // Fill modal fields
-        document.getElementById("editRoomId").value = id;
-        document.getElementById("editRoomNumber").value = row.cells[1].innerText;
-        document.getElementById("editRoomType").value = row.cells[2].innerText;
-        document.getElementById("editRentAmount").value = row.cells[3].innerText.replace("₱", "");
-        document.getElementById("editAvailabilityStatus").value = row.cells[4].innerText;
-
-        // Show modal
-        document.getElementById("editRoomModal").style.display = "block";
-    }
-});
-
-//close edit modal
-const editModal = document.getElementById("editRoomModal");
-document.getElementById("closeEditModal").onclick = () => editModal.style.display = "none";
-
-
-//save updated room
-document.getElementById("editRoomForm").addEventListener("submit", async function (e) {
-    e.preventDefault();
-
-    const id = document.getElementById("editRoomId").value;
-
-    const data = {
-        Room_Number: document.getElementById("editRoomNumber").value,
-        Room_Type: document.getElementById("editRoomType").value,
-        Rent_Amount: document.getElementById("editRentAmount").value,
-        Availability_Status: document.getElementById("editAvailabilityStatus").value
-    };
-
-    const res = await fetch(`/admin/updateRoom/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-    });
-
-    const result = await res.json();
-    alert(result.message);
-
-    editModal.style.display = "none";
-    fetchRooms();
-});
-
-
-//delete room function
-document.addEventListener("click", async function (e) {
-    if (e.target.closest(".btn-delete")) {
-        const row = e.target.closest("tr");
-        const id = row.cells[0].innerText;
-
-        if (!confirm("Are you sure you want to delete this room?")) return;
-
-        const res = await fetch(`/admin/deleteRoom/${id}`, {
-            method: "DELETE"
-        });
-
         const result = await res.json();
         alert(result.message);
-
+        editModal.style.display = "none";
         fetchRooms();
-    }
-});
+    });
 
-
-    // Search + Status Filter
+    // Search + Status + Type Filter
     const searchInput = document.getElementById("searchInput");
     const statusFilter = document.getElementById("statusFilter");
+    const typeFilter = document.getElementById("typeFilter");
+
     function filterTable() {
         const searchValue = searchInput.value.toLowerCase();
         const statusValue = statusFilter.value;
+        const typeValue = typeFilter.value;
+
         tableBody.querySelectorAll("tr").forEach(row => {
             const rowText = row.innerText.toLowerCase();
-            const statusText = row.cells[4].innerText;
+            const statusText = row.cells[3].innerText; // Availability
+            const typeText = row.cells[1].innerText;   // Room Type
+
             const matchesSearch = rowText.includes(searchValue);
             const matchesStatus = (statusValue==="All")||(statusText===statusValue);
-            row.style.display = (matchesSearch && matchesStatus) ? "" : "none";
+            const matchesType = (typeValue==="All")||(typeText===typeValue);
+
+            row.style.display = (matchesSearch && matchesStatus && matchesType) ? "" : "none";
         });
     }
+
     searchInput.addEventListener("keyup", filterTable);
     statusFilter.addEventListener("change", filterTable);
-    </script>
+    typeFilter.addEventListener("change", filterTable);
+</script>
+
+
+
 </body>
 </html>

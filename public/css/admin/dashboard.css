@@ -165,16 +165,6 @@ body {
 }
 
 
-/* Button styling */
-.btn {
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-}
-
 
 
 
@@ -206,15 +196,19 @@ body {
     margin-left: 35px;
 }
 
+
 .main-content {
-    width: 100%;
-    padding: 20px;
+    background-color: #ffffff;
+    max-height: 100vh;
+    width: 85%; 
+    overflow: hidden; 
     border-radius: 15px;
-    margin-left: 5%;
-    margin-top: 3%;
+    margin-left: 10%; 
+    margin-top: 6%;
+    padding: 20px;
     transition: margin-left 0.4s ease;
-    font-family: "Poppins", sans-serif;
 }
+
 
 .reports-metrics {
     /* background-color: #ffffff;
@@ -248,8 +242,8 @@ body {
 
 
 .metric-box {
-    background: #f1f8ff;
-    border: 1px solid #176b87;
+
+    border: 1px solid black;
     padding: 35px  10px;
     width:17.7rem;
     height: 12rem;
@@ -261,18 +255,18 @@ body {
 
 .metric-box h6 {
      font-size: 1rem;
-    color: #3a506b;
+    color: black;
     /* margin-bottom: 10px; */
 }
 
 .metric-box .stat-number {
     font-size: 1.5rem;
     font-weight: bold;
-    color: #176b87;
+    color: black;
 }
 
 .icon-large {
-    font-size: 40px; 
+    font-size: 35px; 
     
 }
 
@@ -344,180 +338,13 @@ body {
     background: #e8f0fe;
 }
 
-
-.reports-table {
-    width: 85%;
-    background-color: #ffffff;
-    border-radius: 15px;
-    padding: 20px;
-    transition: margin-left 0.4s ease;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    justify-content: space-between;
-    margin-bottom: 30px;
-    margin-left: 11%;
-    margin-top: 20px;
-    transition: margin-left 0.4s ease;
-    font-family: "Poppins", sans-serif;
+.room-types {
+    margin-top: 8px;
+    font-size: 0.8rem;
+    color: black;
 }
 
-.filters {
-    display: flex;
-    justify-content: right;
-    margin-bottom: 10px;
-    gap: 10px;
-    width: 85%;
-    margin-left: 11%;
-    background-color: #ffffff;
-    border-radius: 15px;
-    padding: 10px;
-    transition: margin-left 0.4s ease;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    font-size: 0.7rem;
+.room-types p {
+    margin: 2px 0;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-    font-size: 0.7rem;
-}
-
-table th, table td {
-    text-align: left;
-    padding: 10px;
-    border: 1px solid #dee2e6;
-}
-
-table th {
-    background-color: #176B87;
-    color: #fafbfd;
-}
-
-table tbody tr:hover {
-    background-color: #8dc0d043;
-}
-
-.btn {
-    padding: 8px 12px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.btn-primary {
-    background-color: #176b87;
-    color: #ffffff;
-    font-size: 0.7rem;
-}
-
-.btn-danger {
-    background-color: #dc3545;
-    color: #ffffff;
-    font-size: 0.7rem;
-
-}
-
-/* Recent Appointments na design */
-.recent-appointments {
-    margin-top: 10px;
-    padding: 10px;
-    border: 1px solid #176B87;
-    border-radius: 15px;
-    background-color: #f9f9f9;
-    width: 64%;
-    height: 30rem;
-    margin-left: 35px;
-}
-
-.recent-appointments h4 {
-    padding: 20px;
-    font-size: 1rem;
-    color: #176B87;
-}
-
-.recent-appointments ul {
-    list-style: none;
-    padding: 0;
-}
-
-.recent-appointments li {
-    padding: 5px 0;
-    border-bottom: 1px solid #ddd;
-}
-
-.recent-appointments li:last-child {
-    border-bottom: none;
-}
-
-/* General Container Styling */
-.recent-patients-container {
-    margin: 10px;
-    padding: 10px;
-    border: 1px solid #176B87;
-    border-radius: 15px;
-    background-color: #f9f9f9;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    height: 30rem;
-    width: 30%;
-}
-
-.recent-patients-container h4 {
-    padding: 20px;
-    font-size: 1rem;
-    color: #176B87;
-    font-weight: bold;
-    text-align: center;
-}
-
-/* Table Styling */
-.recent-patients-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 0 auto;
-    font-size: 1rem;
-}
-
-.recent-patients-table th,
-.recent-patients-table td {
-    text-align: left;
-    padding: 12px 15px;
-    border: 1px solid #176B87;
-}
-
-.recent-patients-table th {
-    background-color: #176B87;
-    color: white;
-    font-weight: bold;
-}
-
-.recent-patients-table tbody tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-
-.recent-patients-table tbody tr:hover {
-    background-color: #8dc0d043;
-}
-
-/* Mobile Responsive */
-@media (max-width: 768px) {
-    .recent-patients-container {
-        padding: 10px;
-    }
-
-    .recent-patients-table th,
-    .recent-patients-table td {
-        padding: 8px;
-        font-size: 0.9rem;
-    }
-    .metrics-group{
-        flex-direction: column;
-    }
-}
-
-.recent-container{
-    display: flex;
-}
-
-.reports-metrics .material-symbols-outlined{
-    color: #176B87;
-}
