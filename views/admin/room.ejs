@@ -187,34 +187,36 @@
         renderPagination(totalPages, rooms);
     }
 
-    function renderTablePage(rooms, page, rowsPerPage) {
-        tableBody.innerHTML = "";
-        const start = (page - 1) * rowsPerPage;
-        const end = start + rowsPerPage;
-        const paginatedRooms = rooms.slice(start, end);
+<!-- Inside your existing renderTablePage function -->
+function renderTablePage(rooms, page, rowsPerPage) {
+    tableBody.innerHTML = "";
+    const start = (page - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+    const paginatedRooms = rooms.slice(start, end);
 
-        paginatedRooms.forEach(room => {
-            const tr = document.createElement("tr");
-            tr.dataset.id = room.id; // store ID here, hidden from table
-            tr.innerHTML = `
-                <td>${room.Room_Number}</td>
-                <td>${room.Room_Type}</td>
-                <td>₱${room.Rent_Amount}</td>
-                <td style="color: ${room.Availability_Status==='Available'?'green':'red'}; font-weight:600;">
-                    ${room.Availability_Status}
-                </td>
-                <td>
-                  <button class="btn-edit" title="Edit">
-                    <span class="material-icons" style="font-size:14px;">edit</span>
-                  </button>
-                  <button class="btn-delete" title="Delete">
-                    <span class="material-icons" style="font-size:14px; color:#d9534f;">delete</span>
-                  </button>
-                </td>
-            `;
-            tableBody.appendChild(tr);
-        });
-    }
+    paginatedRooms.forEach(room => {
+        const tr = document.createElement("tr");
+        tr.dataset.id = room.id; // store ID here, hidden from table
+        tr.innerHTML = `
+            <td>${room.Room_Number}</td>
+            <td>${room.Room_Type}</td>
+            <td>₱${Number(room.Rent_Amount).toLocaleString()}</td>
+            <td style="color: ${room.Availability_Status==='Available'?'green':'red'}; font-weight:600;">
+                ${room.Availability_Status}
+            </td>
+            <td>
+              <button class="btn-edit" title="Edit">
+                <span class="material-icons" style="font-size:14px;">edit</span>
+              </button>
+              <button class="btn-delete" title="Delete">
+                <span class="material-icons" style="font-size:14px; color:#d9534f;">delete</span>
+              </button>
+            </td>
+        `;
+        tableBody.appendChild(tr);
+    });
+}
+
 
     function renderPagination(totalPages, rooms) {
         const pagination = document.getElementById("pagination");
@@ -283,7 +285,7 @@
             document.getElementById("editRoomId").value = id;
             document.getElementById("editRoomNumber").value = row.cells[0].innerText;
             document.getElementById("editRoomType").value = row.cells[1].innerText;
-            document.getElementById("editRentAmount").value = row.cells[2].innerText.replace("₱", "");
+           document.getElementById("editRentAmount").value = row.cells[2].innerText.replace("₱", "").replace(/,/g, "");
             document.getElementById("editAvailabilityStatus").value = row.cells[3].innerText;
 
             editModal.style.display = "block";

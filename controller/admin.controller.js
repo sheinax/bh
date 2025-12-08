@@ -158,32 +158,30 @@ const getTotalActiveTenants = (req, res) => {
 
 
 // Add new user function
-const addUser = (req, res) => {
-    const data_addUser = {
-        FirstName: req.body.firstName_data,
-        LastName: req.body.lastName_data,
-        Address: req.body.address_data,  // updated
-        Users_Gender: req.body.gender_data,
-        ContactNumber: req.body.contactNumber_data,
-        Users_Status: req.body.status,
-        Username: req.body.Username_data,
-        Password: req.body.Password_data,
-    };
+const addUser = async (req, res) => {
+    try {
+        const data_addUser = {
+            FirstName: req.body.firstName_data,
+            LastName: req.body.lastName_data,
+            Address: req.body.address_data,
+            Users_Gender: req.body.gender_data,
+            ContactNumber: req.body.contactNumber_data,
+            Room_Type: req.body.roomType_data,
+            Room_Number: req.body.roomNumber_data,
+            Monthly_Rent: req.body.monthlyRent_data,
+            Users_Status: req.body.status || "Active",
+            Username: req.body.Username_data,
+            Password: bcrypt.hashSync(req.body.Password_data, 10),
+        };
 
-    // Hash the password before saving
-    data_addUser.Password = bcrypt.hashSync(data_addUser.Password, 10);
-
-    // Insert data into the tenant table
-    models.tenant.create(data_addUser)
-        .then(result => {
-            console.log("New user added successfully:", result);
-            res.redirect("/admin/usermanagement?message=UserAdded");
-        })
-        .catch(error => {
-            console.error("Error adding new user:", error);
-            res.redirect("/admin/usermanagement?message=UsernameAlreadyExist!");
-        });
+        await models.tenant.create(data_addUser);
+        res.redirect("/admin/usermanagement?message=UserAdded");
+    } catch (error) {
+        console.error("Error adding user:", error);
+        res.redirect("/admin/usermanagement?message=ErrorAddingUser");
+    }
 };
+
 
 
 
@@ -208,26 +206,27 @@ const editUser = (req, res) => {
 
 
 // Update User Data
-const updateUser = (req, res) => {
+const updateUser = async (req, res) => {
     const userId = req.params.id;
     const updatedData = {
         FirstName: req.body.firstName_data,
         LastName: req.body.lastName_data,
         ContactNumber: req.body.contactNumber_data,
+        Room_Type: req.body.roomType_data,
+        Room_Number: req.body.roomNumber_data,
+        Monthly_Rent: req.body.monthlyRent_data,
         Users_Status: req.body.status,
     };
 
-    models.tenant.update(updatedData, {
-        where: { Users_ID: userId }
-    })
-    .then(() => {
+    try {
+        await models.tenant.update(updatedData, { where: { Users_ID: userId } });
         res.redirect("/admin/usermanagement?message=UserUpdated");
-    })
-    .catch(error => {
+    } catch (error) {
         console.error("Error updating user:", error);
-        res.redirect("/admin/usermanagement?message=ServerError");
-    });
+        res.redirect("/admin/usermanagement?message=ErrorUpdatingUser");
+    }
 };
+
 
 // GET all rooms (fetch for frontend)
 const getRooms = async (req, res) => {
