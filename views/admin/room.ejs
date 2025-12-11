@@ -59,9 +59,10 @@
             <li><a href="Admindashboard"><span class="material-symbols-outlined">dashboard</span>Dashboard</a></li>
             <li><a href="usermanagement"><span class="material-symbols-outlined">manage_accounts</span>Tenants</a></li>
             <li><a href="room"><span class="material-symbols-outlined">room_preferences</span>Room</a></li>
-            <li><a href="payment"><span class="material-symbols-outlined">payments</span>Payment</a></li>
-        
-            <li class="messages">
+            <li><a href="payment"><span class="material-symbols-outlined">payments</span>Deposit</a></li>
+             <li><a href="monthlypayment"><span class="material-symbols-outlined">money</span>Monthly Payment</a></li>
+            
+             <li class="messages">
     <a href="message" class="messages-link">
         <span class="material-symbols-outlined" id="messageIcon">chat</span>
         Messages
@@ -172,7 +173,6 @@
     </div>
 </div>
 
- <div class="pagination" id="pagination"></div>
         <!-- Table -->
         <div class="table-responsive">
             <table class="reports-table">
@@ -189,13 +189,19 @@
                 <tbody>
                     <!-- Dynamic content loaded via JS -->
                 </tbody>
+                
             </table>
            
 
         </div>
+        
+
+        
     </main>
 
     
+ <div class="pagination" id="pagination"></div>
+
 <script>
     // Modal open/close
     const addBtn = document.getElementById("addRoomBtn");
@@ -208,7 +214,7 @@
 
     const tableBody = document.querySelector(".reports-table tbody");
     let currentPage = 1;
-    const rowsPerPage = 7;
+    const rowsPerPage = 6;
 
     // Fetch Rooms and display
     async function fetchRooms() {

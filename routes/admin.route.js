@@ -78,6 +78,7 @@ router.get("/admin/usermanagement", admin_Controller.usermanagement_view);
 router.get("/admin/message", admin_Controller.message_view);
 router.get("/admin/payment", admin_Controller.payment_view);
 router.get("/admin/room", admin_Controller.room_view);
+router.get("/admin/monthlypayment", admin_Controller.monthlypayment_view);
 
 // Admin Auth
 router.post("/register-user", admin_Controller.save_user);
@@ -103,5 +104,7 @@ router.get("/admin/payment", admin_Controller.getAllDeposits);
 
 // Add deposit
 router.post("/admin/addDeposit", admin_Controller.addDeposit);
+
+router.post("/admin/markAsPaid/:id", admin_Controller.markAsPaid);
 
 module.exports = router;

@@ -62,9 +62,10 @@
             <li><a href="Admindashboard"><span class="material-symbols-outlined">Dashboard</span>Dashboard</a></li>
             <li><a href="usermanagement"><span class="material-symbols-outlined">Manage_Accounts</span>Tenants</a></li>
             <li><a href="room"><span class="material-symbols-outlined">room_preferences</span>Room</a></li>
-            <li><a href="payment"><span class="material-symbols-outlined">payments</span>Payment</a></li>
-          
-        <li class="messages">
+            <li><a href="payment"><span class="material-symbols-outlined">payments</span>Deposit</a></li>
+            <li><a href="monthlypayment"><span class="material-symbols-outlined">money</span>Monthly Payment</a></li>
+      
+            <li class="messages">
     <a href="message" class="messages-link">
         <span class="material-symbols-outlined" id="messageIcon">chat</span>
         Messages
@@ -103,21 +104,27 @@
 
     <!-- Deposit Table -->
     <section class="table-section">
-        <div class="table-header">
-            <h5>Tenant Deposits</h5>
-            <button class="btn-add" onclick="openModal()">Add Deposit</button>
+        <h5>Tenant Deposits</h5>
+        <div class="table-header"> 
+            <button class="btn-add" onclick="openModal()">
+                <span class="material-symbols-outlined">add</span>
+        Add Deposit
+            </button>
         </div>
+
 
       <table class="payment-table">
   <thead>
     <tr>
 
-      <th>Date </th>
+      <th>Partial Date </th>
       <th>Tenant Name</th>
       <th>Deposit Amount</th>
       <th>Partial Deposit</th>
       <th>Balance Deposit</th>
       <th>Payment Status</th>
+      <th>Date Paid</th>
+
      
       <th>Action</th>
     </tr>
@@ -133,9 +140,32 @@
                 <td><%= dep.tenant_name %></td>
                 <td><%= dep.deposit_amount %></td>
                 <td><%= dep.partial_deposit || 0 %></td>
-                <td><%= dep.deposit_amount - (dep.partial_deposit || 0) %></td>
-                <td><%= dep.payment_status %></td>
-               
+                <td ><%= dep.deposit_amount - (dep.partial_deposit || 0) %></td>
+                <td class="<%= dep.payment_status.toLowerCase() %>">
+  <%= dep.payment_status %>
+</td>
+
+                <td>
+    <% if (dep.payment_status === 'Paid') { %>
+        <%= dep.updatedAt.toLocaleDateString() %>
+    <% } else { %>
+        —
+    <% } %>
+</td>
+
+    <td>
+    <% if (dep.payment_status === 'Partial') { %>
+        <form action="/admin/markAsPaid/<%= dep.id %>" method="POST" 
+              onsubmit="return confirmMarkAsPaid();"
+              style="display:inline;">
+            <button type="submit" class="btn-paid">Mark as Paid</button>
+        </form>
+    <% } else { %>
+        <span class="status-done">—</span>
+    <% } %>
+</td>
+
+
             </tr>
         <% }) %>
     <% } else { %>
@@ -148,8 +178,17 @@
 
 </table>
 
+<div id="pagination" class="pagination"></div>
+
+
     </section>
 </main>
+
+<script>
+function confirmMarkAsPaid() {
+    return confirm("Are you sure you want to mark this deposit as PAID? The balance will be set to zero.");
+}
+</script>
 
 <script>
 function openModal() {
@@ -183,6 +222,52 @@ window.addEventListener('click', (e) => {
     }
 });
 </script>
+
+<script>
+// PAGINATION
+const rowsPerPage = 6;
+const table = document.querySelector('.payment-table tbody');
+const pagination = document.getElementById('pagination');
+let currentPage = 1;
+
+// Get all rows as array
+const rows = Array.from(table.querySelectorAll('tr'));
+const totalPages = Math.ceil(rows.length / rowsPerPage);
+
+function displayTablePage(page) {
+    const start = (page - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+
+    rows.forEach((row, index) => {
+        row.style.display = (index >= start && index < end) ? '' : 'none';
+    });
+
+    renderPagination();
+}
+
+function renderPagination() {
+    pagination.innerHTML = '';
+
+    for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement('button');
+        btn.innerText = i;
+        btn.classList.add('page-btn');
+        if (i === currentPage) btn.classList.add('active');
+
+        btn.addEventListener('click', () => {
+            currentPage = i;
+            displayTablePage(currentPage);
+        });
+
+        pagination.appendChild(btn);
+    }
+}
+
+// Initial display
+displayTablePage(currentPage);
+</script>
+
+
 
 
 </body>

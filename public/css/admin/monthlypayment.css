@@ -211,7 +211,7 @@ body {
 }
 
 .payment-table th {
-    background-color: #42224A;
+    background-color: #60376b;
     color: #fff;
 }
 
@@ -228,7 +228,7 @@ body {
 
 .btn-add {
     padding: 5px 15px;
-    background-color: #42224A;
+    background-color: #60376b;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -277,7 +277,7 @@ body {
 
 .modal-content button {
     padding: 8px 15px;
-    background-color: #42224A;
+    background-color: #7E60BF;
     color: #fff;
     border: none;
     border-radius: 5px;

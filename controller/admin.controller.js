@@ -17,6 +17,12 @@ const Admindashboard_view = (req, res) => {
 };
 
 
+
+const monthlypayment_view= (req, res) => {
+    res.render("admin/monthlypayment");
+};
+
+
 const payment_view = async (req, res) => {
   try {
     const deposits = await models.Deposit.findAll({
@@ -421,7 +427,37 @@ const getAllDeposits = async (req, res) => {
     }
 };
 
+// MARK AS PAID
+const markAsPaid = async (req, res) => {
+    try {
+        const depositId = req.params.id;
+
+        // Fetch deposit
+        const deposit = await models.Deposit.findByPk(depositId);
+
+        if (!deposit) {
+            return res.redirect("/admin/payment?message=NotFound");
+        }
+
+        // Update values
+        const deposit_amount = Number(deposit.deposit_amount);
+
+        await deposit.update({
+            partial_deposit: deposit_amount,
+            balance_deposit: 0,
+            payment_status: "Paid"
+        });
+
+        res.redirect("/admin/payment?message=MarkedAsPaid");
+    } catch (error) {
+        console.error("Error marking as paid:", error);
+        res.redirect("/admin/payment?message=Error");
+    }
+};
+
 module.exports = {
+    monthlypayment_view,
+    markAsPaid,
     addDeposit,
     getAllDeposits,
     getRoomStats,
