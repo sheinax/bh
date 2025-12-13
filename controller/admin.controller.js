@@ -11,15 +11,82 @@ const bcrypt = require("bcrypt");
 
 
 // Sa Navigation
+const Admindashboard_view = async (req, res) => {
+    try {
+        // Total Balance Deposit from Deposits
+        const depositTotalResult = await models.Deposit.sum('balance_deposit') || 0;
 
-const Admindashboard_view = (req, res) => {
-    res.render("admin/Admindashboard");
+        // Total Remaining Balance from Monthly Payments
+        const monthlyRemainingTotal = await models.MonthlyPayment.sum('remaining_balance') || 0;
+
+        // Total Pending Payments
+        const totalPendingPayments = depositTotalResult + monthlyRemainingTotal;
+
+        // Render dashboard and send totalPendingPayments
+        res.render("admin/Admindashboard", {
+            totalPendingPayments: totalPendingPayments.toFixed(2),
+            // send other dashboard data here if needed
+        });
+    } catch (error) {
+        console.error("Error fetching pending payments:", error);
+        res.render("admin/Admindashboard", { totalPendingPayments: 0 });
+    }
 };
 
 
 
-const monthlypayment_view= (req, res) => {
-    res.render("admin/monthlypayment");
+// Add monthly payment
+const addMonthlyPayment = async (req, res) => {
+    try {
+        const { tenant_id, tenant_name, monthly_due_date, monthly_rent, amount_paid } = req.body;
+
+        const remaining_balance = monthly_rent - amount_paid;
+
+        await models.MonthlyPayment.create({
+            tenant_id,
+            tenant_name,
+            monthly_due_date,
+            monthly_rent,
+            date_paid: amount_paid > 0 ? new Date() : null,
+            amount_paid,
+            remaining_balance
+        });
+
+        res.redirect("/admin/monthlypayment?message=PaymentAdded");
+    } catch (error) {
+        console.error("Error:", error);
+        res.redirect("/admin/monthlypayment?message=Error");
+    }
+};
+
+
+// Get all monthly payments for rendering
+const getAllMonthlyPayments = async (req, res) => {
+    try {
+        const monthlyPayments = await models.MonthlyPayment.findAll({ order: [['createdAt', 'DESC']] });
+        res.render("admin/monthlypayment", { monthlyPayments });
+    } catch (error) {
+        console.error("Error fetching monthly payments:", error);
+        res.render("admin/monthlypayment", { monthlyPayments: [] });
+    }
+};
+
+
+const monthlypayment_view = async (req, res) => {
+    try {
+        const tenants = await models.tenant.findAll({
+            attributes: ["Users_ID", "FirstName", "LastName", "Monthly_DueDate", "Monthly_Rent"]
+        });
+
+        const monthlyPayments = await models.MonthlyPayment.findAll({
+            order: [['createdAt', 'DESC']]
+        });
+
+        res.render("admin/monthlypayment", { monthlyPayments, tenants });
+    } catch (error) {
+        console.error("Error:", error);
+        res.render("admin/monthlypayment", { monthlyPayments: [], tenants: [] });
+    }
 };
 
 
@@ -37,6 +104,55 @@ const payment_view = async (req, res) => {
   }
 };
 
+// Add Payment
+exports.addPayment = async (req, res) => {
+    try {
+        const tenantId = req.body.tenant_id;
+        const amountPaid = parseFloat(req.body.amount_paid);
+
+        const tenant = await models.tenant.findOne({
+            where: { Users_ID: tenantId }
+        });
+
+        const monthlyRent = tenant.Monthly_Rent;
+
+        // Compute balance
+        const balance = monthlyRent - amountPaid;
+
+        await models.payment.create({
+            Tenant_ID: tenantId,
+            Amount_Paid: amountPaid,
+            Balance: balance <= 0 ? 0 : balance,
+            Status: balance <= 0 ? "Paid" : "Partial"
+        });
+
+        res.redirect("/admin/payment");
+
+    } catch (error) {
+        res.send(error);
+    }
+};
+
+// MARK MONTHLY PAYMENT AS PAID
+const markMonthlyPaid = async (req, res) => {
+    try {
+        const paymentId = req.params.id;
+
+        const payment = await models.MonthlyPayment.findByPk(paymentId);
+        if (!payment) return res.redirect("/admin/monthlypayment?message=NotFound");
+
+        await payment.update({
+            amount_paid: payment.monthly_rent,
+            remaining_balance: 0,
+            date_paid: new Date()
+        });
+
+        res.redirect("/admin/monthlypayment?message=MarkedAsPaid");
+    } catch (error) {
+        console.error("Error marking monthly payment as paid:", error);
+        res.redirect("/admin/monthlypayment?message=Error");
+    }
+};
 
 const message_view= (req, res) => {
     res.render("admin/message");
@@ -188,6 +304,7 @@ const addUser = async (req, res) => {
             Users_Status: req.body.status || "Active",
             Username: req.body.Username_data,
             Password: bcrypt.hashSync(req.body.Password_data, 10),
+            Monthly_DueDate: req.body.monthlyDueDate_data, // <-- required
         };
 
         await models.tenant.create(data_addUser);
@@ -197,8 +314,6 @@ const addUser = async (req, res) => {
         res.redirect("/admin/usermanagement?message=ErrorAddingUser");
     }
 };
-
-
 
 
 // Edit User
@@ -221,13 +336,13 @@ const editUser = (req, res) => {
 };
 
 
-// Update User Data
 const updateUser = async (req, res) => {
     const userId = req.params.id;
     const updatedData = {
         FirstName: req.body.firstName_data,
         LastName: req.body.lastName_data,
         ContactNumber: req.body.contactNumber_data,
+        Monthly_DueDate: req.body.monthlyDueDate_data,
         Room_Type: req.body.roomType_data,
         Room_Number: req.body.roomNumber_data,
         Monthly_Rent: req.body.monthlyRent_data,
@@ -455,7 +570,26 @@ const markAsPaid = async (req, res) => {
     }
 };
 
+const getRecentMonthlyPayments = async (req, res) => {
+    try {
+        const payments = await models.MonthlyPayment.findAll({
+            order: [['createdAt', 'DESC']],
+            limit: 3 // only fetch 3 latest
+        });
+
+        res.json(payments);
+    } catch (error) {
+        console.error("Error fetching recent monthly payments:", error);
+        res.status(500).json({ error: "Unable to fetch recent payments" });
+    }
+};
+
+
 module.exports = {
+    getRecentMonthlyPayments,
+    markMonthlyPaid,
+     addMonthlyPayment,
+    getAllMonthlyPayments,
     monthlypayment_view,
     markAsPaid,
     addDeposit,
@@ -483,3 +617,4 @@ module.exports = {
 
   
 };
+
